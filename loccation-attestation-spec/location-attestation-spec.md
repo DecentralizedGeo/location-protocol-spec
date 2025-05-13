@@ -18,7 +18,7 @@ The locationType field is a string that identifies the type of location data bei
 |------------|------|-------------|
 | locationType | `string` | The type of location data being represented. |
 | srs | `string` | The spatial reference system used to represent the location data. |
-| location | `string`, `int` | The actual location data |
+| location | `string`, `int40[2]`, `int40[2][]`, `int40[2][][]` | The actual location data |
 | specVersion | `uint8` | The version of the specification used to generate the attestation. |
 
 #### Supported location types
@@ -33,6 +33,7 @@ The `locationType` field identifies the type of location data being represented.
 | H3 | `string` | An H3 index representing a geographic location. | `8928308280fffff` |
 | geohash | `string` | A geohash string representing a geographic location. | `u4pruyd` |
 | W3W | `string` | A What3Words address representing a location. | `apple.banana.orange` |
+| scaledCoordinates | `int40[2]`, `int40[2][]`, `int40[2][][]` | A scaled integer representation of coordinate pairs, representing points lines or polygons. | `[[-74000000, 40700000], [-74100000, 40700000], [-74100000, 40800000], [-74000000, 40800000], [-74000000, 40700000]]` |
 
 ### Composable fields
 
