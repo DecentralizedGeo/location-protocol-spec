@@ -4,6 +4,17 @@
 
 This document defines the standard formatting and rules for generating location attestations.
 
+Table of Contents:
+- [Location Attestation Specification](#location-attestation-specification)
+  - [Overview](#overview)
+  - [The Location Attestation Object](#the-location-attestation-object)
+    - [Base fields](#base-fields)
+      - [Supported location types](#supported-location-types)
+    - [Composable fields](#composable-fields)
+      - [Common fields](#common-fields)
+      - [Common EAS fields](#common-eas-fields)
+      - [Proof fields](#proof-fields)
+
 ## The Location Attestation Object
 
 A location attestation object is a geospatial data artifact that includes a digital signature that verifies the authenticity and integrity of an arbitrary metadata object. At minimum it conforms to the [base data model](#base-fields) and can be extended with the [composable fields](#composable-fields) to provide more context or information.
