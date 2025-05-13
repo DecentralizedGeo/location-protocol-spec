@@ -16,10 +16,12 @@ The locationType field is a string that identifies the type of location data bei
 
 | Field Name | Type | Description |
 |------------|------|-------------|
+| srs[^1] | `string` | The spatial reference system used to represent the location data. |
 | locationType | `string` | The type of location data being represented. |
-| srs | `string` | The spatial reference system used to represent the location data. |
 | location | `string`, `int40[2]`, `int40[2][]`, `int40[2][][]` | The actual location data |
 | specVersion | `uint8` | The version of the specification used to generate the attestation. |
+
+[^1]: It is recommended that the `srs` field conforms to EPSG code (e.g. `EPSG:4326`), OGC URN (e.g. `urn:ogc:def:crs:OGC:1.3:CRS84`), or a well-known identifier for the spatial reference system.
 
 #### Supported location types
 
