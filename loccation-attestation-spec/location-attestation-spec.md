@@ -24,8 +24,6 @@ A location attestation object is a geospatial data artifact that includes a digi
 
 The location attestation object at a minimum must contain the fields below as to identify and represent the location data.
 
-The locationType field is a string that identifies the type of location data being represented. The srs field is a string that identifies the spatial reference system used to represent the location data. The location field contains the actual location data.
-
 | Field Name | Type | Description |
 |------------|------|-------------|
 | srs[^1] | `string` | The spatial reference system used to represent the location data. |
