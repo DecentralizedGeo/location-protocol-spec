@@ -51,7 +51,7 @@ The `location` value is interpreted based on the `locationType` field. Implement
 
 A location attestation object can be composed of each representing a different aspect of the location data. These sub-objects can be used to provide additional context or information about the location data.
 
-> Note: The fields marked with :heavy_check_mark: have common overlap with their EAS counterparts and that are included in the location attestation object by default.
+> Note: The fields marked with :heavy_check_mark: have common overlap with their EAS counterparts and are included in the location attestation object by default.
 
 #### Common fields
 
@@ -83,7 +83,6 @@ The location protocol framework is a geospatial extension of Ethereum based on t
 | attester | `address` | The address of the attester who created the attestation. |
 | revocable | `bool` | A boolean indicating whether the attestation is revocable or not. |
 
-The fields marked with :heavy_check_mark: are common EAS fields that are included in the location attestation object. The other fields are specific to the location protocol framework and are not part of the EAS standard.
 
 #### Proof fields
 
