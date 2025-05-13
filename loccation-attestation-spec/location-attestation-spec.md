@@ -5,6 +5,7 @@
 This document defines the standard formatting and rules for generating location attestations.
 
 Table of Contents:
+
 - [Location Attestation Specification](#location-attestation-specification)
   - [Overview](#overview)
   - [The Location Attestation Object](#the-location-attestation-object)
