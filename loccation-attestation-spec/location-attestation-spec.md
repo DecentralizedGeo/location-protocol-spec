@@ -1,10 +1,6 @@
 # Location Attestation Specification
 
-## Overview
-
-This document defines the standard formatting and rules for generating location attestations.
-
-Table of Contents:
+**Table of Contents:**
 
 - [Location Attestation Specification](#location-attestation-specification)
   - [Overview](#overview)
@@ -15,6 +11,10 @@ Table of Contents:
       - [Common fields](#common-fields)
       - [Common EAS fields](#common-eas-fields)
       - [Proof fields](#proof-fields)
+
+## Overview
+
+This document defines the standard formatting and rules for generating location attestations.
 
 ## The Location Attestation Object
 
