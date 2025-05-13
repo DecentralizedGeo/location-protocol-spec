@@ -59,11 +59,12 @@ The location attestation object supports additional fields that are common to al
 
 | Field Name | Type | Description | Common EAS Field |
 |------------|------|-------------|-------------|
-| media | `bytes` | The media type of the location data. | |
+| media | `bytes`, `mediaType` | bytes array representing the media data associated with the location data. The `mediaType` is a MIME-type-style string describing the media data. | |
 | attributes | `string` | Additional attributes of the location data. | |
 | eventTimeStamp | `uint64` | The UNIX timestamp of the event associated with the location data. _Note, this should not be confused with the `time` field that represents when the attestation was created_. | |
 | attributesSchema | `string` | The schema used to define the attributes of the location data. | :heavy_check_mark: `schemaString` |
 | attributeSchemaUID | `byte32` | The unique identifier of the attribute schema. | :heavy_check_mark: `schemaUID` |
+| recepient | `address` | The address of the recipient of the attestation. | :heavy_check_mark: `recipient` |
 | memo | `string` | An arbitrary message or note. | |
 
 #### Common EAS fields
