@@ -4,4 +4,4 @@ The location protocol framework is designed to enable independent implementation
 
 This repository contains core specifications for the Location Protocol framework, including:
 
-[**Location Attestation Specification**](./loccation-attestation-spec/) Defines the standard formatting and rules for generating location attestations.
+[**Location Attestation**](./loccation-attestation/) - Defines the standard formatting and rules for generating location attestation objects.
