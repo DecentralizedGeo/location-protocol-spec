@@ -4,4 +4,4 @@ The location attestation object is a core component of the Location Protocol fra
 
 ## In this directory
 
-The location attestation specifications in [location-attestation-spec.md](./location-attestation-spec.md) defines the standard formatting and rules for creating location attestation objects.
+[location-attestation.md](./location-attestation.md) defines the standard formatting and rules for creating location attestation objects.
