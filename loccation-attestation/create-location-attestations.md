@@ -62,7 +62,7 @@ At this point, we are now ready to create the attestation object. The attestatio
 ```json
 {
   "attestation object": {
-    "schemaUID": "0xe1fc76535d5ab7a4e107a63e068af0fe51bb19ca27b8d2dcff1711ca5f55855c",
+    "schemaUID": "0xedd6b005e276227690314960c55a3dc6e088611a709b4fbb4d40c32980640b9a",
     "schemaString": "string srs, string locationType, string location, unit8 specVersion",
     "recipient": "0x1234567890abcdef1234567890abcdef12345678",
     "data": "encodedLocationAttestationObject"
