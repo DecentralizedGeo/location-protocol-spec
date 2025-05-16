@@ -73,5 +73,6 @@ At this point, we are now ready to create the attestation object. The attestatio
 After the attestation is signed, submitted and added to the blockchain, a UID is generated, that can be used to query the attestation and view it's details. Here's an attestation for the location attestation object we created above.
 
 **Attestation UID**: 0x628f06c011351ef39b419718f29f20f0bc62ff3342d1e9c284531bf12bd20f31
+
 **EAS Explorer Link**:  https://sepolia.easscan.org/attestation/view/0x628f06c011351ef39b419718f29f20f0bc62ff3342d1e9c284531bf12bd20f31
 
