@@ -1,8 +1,17 @@
 [build]
-command = """
-pip3 install -q poetry &&
-poetry config virtualenvs.in-project true &&
-poetry install -v &&
-mkdocs build -d site
-publish = "site"
-"""
+  command = "pip install poetry && poetry install --no-interaction --no-ansi && poetry run mkdocs build"
+  publish = "site"
+
+[build.environment]
+  PYTHON_VERSION = "3.11" # Or your desired Python version compatible with your dependencies
+  PIP_VERSION = "23.3.1" # Specify a recent pip version
+
+[context.deploy-preview]
+  command = "pip install poetry && poetry install --no-interaction --no-ansi && poetry run mkdocs build --dirty"
+
+[context.branch-deploy]
+  command = "pip install poetry && poetry install --no-interaction --no-ansi && poetry run mkdocs build --dirty"
+
+# Optional: Specify Node.js version if your theme or plugins need it, though Material for MkDocs usually doesn't.
+# [build.environment]
+#   NODE_VERSION = "18"
