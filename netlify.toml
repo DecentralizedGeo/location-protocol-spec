@@ -1,5 +1,5 @@
 [build]
-  command = "pip install poetry && poetry install --no-interaction --no-ansi && poetry run mkdocs build"
+  command = "pip install poetry && python -m poetry install --no-interaction --no-ansi && python -m poetry run mkdocs build"
   publish = "site"
 
 [build.environment]
@@ -7,10 +7,10 @@
   PIP_VERSION = "23.3.1" # Specify a recent pip version
 
 [context.deploy-preview]
-  command = "pip install poetry && poetry install --no-interaction --no-ansi && poetry run mkdocs build --dirty"
+  command = "pip install poetry && python -m poetry install --no-interaction --no-ansi && python -m poetry run mkdocs build --dirty"
 
 [context.branch-deploy]
-  command = "pip install poetry && poetry install --no-interaction --no-ansi && poetry run mkdocs build --dirty"
+  command = "pip install poetry && python -m poetry install --no-interaction --no-ansi && python -m poetry run mkdocs build --dirty"
 
 # Optional: Specify Node.js version if your theme or plugins need it, though Material for MkDocs usually doesn't.
 # [build.environment]
