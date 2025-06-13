@@ -1,0 +1,27 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "location-protocol-specification"
+version = "0.2.0"
+description = " A common format for portable, signed records of spatial information — including coordinates, boundaries, imagery, and other geospatial data."
+authors = [{ name = "Decentralized Geospatial" }]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.12,<4" # Specify your python version requirement here
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings",
+    "mkdocstrings-python",
+]
+
+[tool.poetry]
+package-mode = false

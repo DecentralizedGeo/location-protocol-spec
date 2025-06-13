@@ -1,0 +1,74 @@
+site_name: The Location Protocol Spec # Your project name
+site_description: A common format for portable, signed records of spatial information — including coordinates, boundaries, imagery, and other geospatial data.
+
+theme:
+  name: material
+  logo: https://avatars.githubusercontent.com/u/199006257?s=200&v=4
+  palette:
+    # - media: "(prefers-color-scheme)"
+    #   toggle:
+    #     icon: material/lightbulb-auto
+    #     name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      accent: amber
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      accent: amber
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to system preference
+  features:
+    - content.code.annotate
+    - content.code.copy
+    # - content.code.select
+    - content.footnote.tooltips
+    - content.tabs.link
+    - content.tooltips
+    - navigation.expand
+    - navigation.footer
+    - navigation.instant
+    - navigation.instant.prefetch
+    # - navigation.instant.preview
+    - navigation.instant.progress
+    - navigation.path
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
+
+extra_css:
+  - stylesheets/extra.css
+
+repo_name: location-protocol-spec
+repo_url: https://github.com/DecentralizedGeo/location-protocol-spec
+plugins:
+  # Material for MkDocs
+  search:
+
+nav: # Navigation links
+  - Location Protocol Specification: index.md # Home page
+
+markdown_extensions:
+  - md_in_html:
+  - tables:
+  - toc:
+  - attr_list:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - footnotes
