@@ -1,5 +1,6 @@
 site_name: The Location Protocol Spec # Your project name
 site_description: A common format for portable, signed records of spatial information — including coordinates, boundaries, imagery, and other geospatial data.
+docs_dir: docs/spec-page
 
 theme:
   name: material
@@ -28,7 +29,7 @@ theme:
     - content.footnote.tooltips
     - content.tabs.link
     - content.tooltips
-    - navigation.expand
+    - navigation.collapse
     - navigation.footer
     - navigation.instant
     - navigation.instant.prefetch
@@ -47,6 +48,11 @@ theme:
 extra_css:
   - stylesheets/extra.css
 
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/DecentralizedGeo/location-protocol-spec
+
 repo_name: location-protocol-spec
 repo_url: https://github.com/DecentralizedGeo/location-protocol-spec
 plugins:
@@ -54,7 +60,23 @@ plugins:
   search:
 
 nav: # Navigation links
-  - Location Protocol Specification: index.md # Home page
+  - Home: index.md
+  - Introduction:
+      - Overview: introduction/overview.md
+      - Core Concepts: introduction/core-concepts.md
+      - Bridging Concepts: introduction/bridging-concepts.md
+  - Specification:
+      - Data Model: specification/data-model.md
+      - Location Types: specification/location-types.md
+      - Composable Fields: specification/composable-fields.md
+      - Schemas: specification/schemas.md
+  - Implementation:
+      - Encoding: implementation/encoding.md
+      - Workflow: implementation/workflow.md
+      - Examples: implementation/examples.md
+  - Appendices:
+      - GeoJSON Alignment: appendices/geojson-alignment.md
+      - EAS Integration: appendices/eas-integration.md
 
 markdown_extensions:
   - md_in_html:
@@ -70,5 +92,12 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - footnotes
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10.6.1/dist/mermaid.min.js
