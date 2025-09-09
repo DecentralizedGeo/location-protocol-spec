@@ -1,0 +1,87 @@
+/* Mermaid Diagram Styling */
+
+/* Center all Mermaid diagrams */
+.mermaid {
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* Fix text overflow in Mermaid flowchart nodes */
+.mermaid .node rect,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node polygon {
+    stroke-width: 2px;
+}
+
+/* Improve text wrapping and spacing in flowchart nodes */
+.mermaid .nodeLabel {
+    font-size: 12px;
+    line-height: 1.2;
+    text-anchor: middle;
+    dominant-baseline: central;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Ensure flowchart boxes are large enough for their content */
+.mermaid .node {
+    min-width: 120px;
+    min-height: 40px;
+}
+
+/* Style for flowchart rectangles specifically */
+.mermaid .flowchart-label {
+    font-size: 11px;
+    line-height: 1.3;
+    padding: 4px 8px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
+    white-space: normal;
+}
+
+/* Fix subgraph styling */
+.mermaid .cluster rect {
+    stroke-width: 1px;
+    stroke-dasharray: 5,5;
+}
+
+.mermaid .cluster text {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .mermaid {
+        font-size: 10px;
+    }
+    
+    .mermaid .nodeLabel,
+    .mermaid .flowchart-label {
+        font-size: 10px;
+    }
+}
+
+/* Dark mode adjustments for better contrast */
+[data-md-color-scheme="slate"] .mermaid {
+    filter: invert(0);
+}
+
+/* Ensure proper spacing around diagrams */
+.mermaid-container {
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+/* Fix arrow labels */
+.mermaid .edgeLabel {
+    background-color: var(--md-default-bg-color);
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-size: 10px;
+}
