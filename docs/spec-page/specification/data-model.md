@@ -30,7 +30,7 @@ The base data model consists of four required fields: `lp_version`, `srs`, `loca
 - **Type**: `string`
 - **Constraints**:
   - This field is **required**.
-  - The value MUST correspond to an identifier in the official Location Type Registry (e.g., `geojson`, `h3`, `coordinate_decimal`).
+  - The value MUST correspond to an identifier in the official Location Type Registry (e.g., `geojson-point`, `h3-index`, `coordinate-decimal`).
 
 **`location`**
 
@@ -117,13 +117,13 @@ graph TD
 ### Payload Examples
 
 **Valid Payload**
-This example shows a correctly formatted payload using the `geojson` location type.
+This example shows a correctly formatted payload using the `geojson-point` location type.
 
 ```json
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "geojson",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [-103.771556, 44.967243]
@@ -138,7 +138,7 @@ These examples demonstrate common validation errors.
 // Invalid: Missing the required 'srs' field.
 {
   "lp_version": "1.0.0",
-  "location_type": "geojson",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [-103.771556, 44.967243]
@@ -151,7 +151,7 @@ These examples demonstrate common validation errors.
 {
   "lp_version": "v1",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "geojson",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [-103.771556, 44.967243]
@@ -160,11 +160,11 @@ These examples demonstrate common validation errors.
 ```
 
 ```json
-// Invalid: 'location' data (an array) does not match the 'geojson' location_type (expects an object).
+// Invalid: 'location' data (an array) does not match the 'geojson-point' location_type (expects an object).
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "geojson",
+  "location_type": "geojson-point",
   "location": [-103.771556, 44.967243]
 }
 ```

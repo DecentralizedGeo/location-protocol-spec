@@ -102,25 +102,25 @@ The following snippets define the schema for the optional composable fields.
 
 ### Proof Extension Framework
 
-The Location Protocol supports custom, verifiable proof mechanisms through the `proof` object, which contains `recipe_type` and `recipe_payload` fields. This allows for domain-specific verification methods beyond the base record signature.
+The Location Protocol supports custom, verifiable proof mechanisms through the `proof` object, which contains `stamp_types` and `stamps` fields. This allows for domain-specific verification methods beyond the base record signature.
 
-> **Note**: The proof extension framework is an advanced feature. The definitions and validation requirements are expected to evolve with community feedback and implementation experience.
+> **Note**: The proof extension framework is an advanced feature, still in development. The definitions and validation requirements are expected to evolve with community feedback and implementation experience.
 
 ---
 
-#### `proof.recipe_type`
+#### `proof.stamp_types`
 
 - **Type**: `string`
-- **Description**: An identifier for the type of proof recipe being used. This string signals to verifiers which validation logic to apply to the `recipe_payload`. Examples could include `signed_sensor_reading.v1` or `hardware_attestation.tpm.v2`.
+- **Description**: An identifier for the type of proof recipe being used. This string signals to verifiers which validation logic to apply to the `stamps`. Examples might include `signed_sensor_reading.v1` or `hardware_attestation.tpm.v2`. (Location proof plugin naming conventions have not been established.)
 - **Constraints**: Must be a unique, versioned identifier registered in the extension registry.
 
 ---
 
-#### `proof.recipe_payload`
+#### `proof.stamps`
 
 - **Type**: `string` (typically Base64 encoded)
-- **Description**: The data payload for the specified proof recipe. Its structure and content are defined by the `recipe_type`. This could contain cryptographic signatures, sensor data, or other evidence that can be independently verified according to the recipe's rules.
-- **Constraints**: The payload must conform to the schema and validation rules defined by its corresponding `recipe_type`.
+- **Description**: The data payload for the specified proof recipe. Its structure and content are defined by the `stamp_types`. This could contain cryptographic signatures, sensor data, or other evidence that can be independently verified according to the recipe's rules.
+- **Constraints**: The payload must conform to the schema and validation rules defined by its corresponding `stamp_types`.
 
 ### Usage Patterns
 
@@ -133,7 +133,7 @@ This example includes an `event_timestamp` to specify when a delivery was record
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "coordinate_decimal",
+  "location_type": "coordinate-decimal",
   "location": [-74.006, 40.7128],
   "event_timestamp": 1732552800
 }
@@ -146,7 +146,7 @@ This example shows field observation data with an inline JSON schema reference.
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/EPSG/0/4326",
-  "location_type": "geojson",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [44.967243, -103.771556]
@@ -163,7 +163,7 @@ This example includes a CID reference to a photo on IPFS and a custom proof payl
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "geojson",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [-122.4194, 37.7749]
@@ -171,8 +171,8 @@ This example includes a CID reference to a photo on IPFS and a custom proof payl
   "media_data": "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
   "media_type": "image/jpeg",
   "proof": {
-    "recipe_type": "trusted_hardware.gps.v1",
-    "recipe_payload": "a1b2c3d4e5f6..."
+    "stamp_types": "trusted_hardware.gps.v1",
+    "stamps": "a1b2c3d4e5f6..."
   }
 }
 ```

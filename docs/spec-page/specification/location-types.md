@@ -35,7 +35,7 @@ The current implementation uses simple, unversioned string identifiers for `loca
 
 The following examples demonstrate how to structure a Location Protocol payload for different location types, using the current, unversioned identifiers.
 
-#### `coordinate_decimal`
+#### `coordinate-decimal`
 
 Represents a single geographic point using decimal degrees.
 
@@ -43,12 +43,12 @@ Represents a single geographic point using decimal degrees.
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "coordinate_decimal",
+  "location_type": "coordinate-decimal",
   "location": [-103.771556, 44.967243]
 }
 ```
 
-#### `geojson`
+#### `geojson-point`
 
 Represents a single geographic point using a GeoJSON Point object.
 
@@ -56,7 +56,7 @@ Represents a single geographic point using a GeoJSON Point object.
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "geojson",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [-103.771556, 44.967243]

@@ -80,7 +80,7 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
     "location_type": {
       "type": "string",
       "description": "Identifier for the location data format.",
-      "enum": ["coordinate_decimal", "geojson", "h3"]
+      "enum": ["coordinate-decimal", "geojson-point", "h3-index"]
     },
     "locationCoordinateDecimal": {
       "description": "Location as a longitude, latitude array.",

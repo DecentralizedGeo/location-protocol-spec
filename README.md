@@ -35,7 +35,7 @@ Location Protocol defines **4 required fields** that wrap your spatial data:
 {
   "lp_version": "1.0.0",              // Which version of this spec
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",  // Coordinate system (OGC standard URI)
-  "location_type": "geojson",         // What format is inside
+  "location_type": "geojson-point",   // What format is inside (format-type)
   "location": {                        // Your actual GeoJSON/H3/WKT/coordinates
     "type": "Point",
     "coordinates": [-122.4194, 37.7749]
@@ -101,7 +101,7 @@ Location Protocol defines **4 required fields** that wrap your spatial data:
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "geojson",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [-122.4194, 37.7749]
@@ -114,7 +114,7 @@ Location Protocol defines **4 required fields** that wrap your spatial data:
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/EPSG/0/4326",
-  "location_type": "h3",
+  "location_type": "h3-index",
   "location": "8928308280fffff",
   "event_timestamp": 1735689600
 }
@@ -125,7 +125,7 @@ Location Protocol defines **4 required fields** that wrap your spatial data:
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "geojson",
+  "location_type": "geojson-point",
   "location": { "type": "Point", "coordinates": [-103.771556, 44.967243] },
   "attributes": "{\"species\": \"Pinus ponderosa\", \"height_m\": 18.2, \"dbh_cm\": 45.3}",
   "attributes_schema": "json:inline:eyJ0eXBlIjoib2JqZWN0In0="
