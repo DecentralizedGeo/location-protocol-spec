@@ -2,47 +2,89 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/005c5473-4983-4835-a8b3-976f50ea0745/deploy-status)](https://app.netlify.com/projects/protocol-spec-docs/deploys)
 
-**A minimal, portable, implementation-agnostic standard for representing location data across decentralized and centralized systems.**
+**A minimal envelope for making location data portable, verifiable, and unambiguous across any system.**
 
-## Why Location Protocol?
+## What Is This?
 
-### The Problem
+Location Protocol is **not another geospatial data format**. It's a thin wrapper around existing formats (GeoJSON, H3, WKT, coordinates, etc.) that adds the metadata needed to make location data:
 
-Existing geospatial data standards—GeoJSON, KML, STAC, Overture—are powerful tools for representing and exchanging spatial information. However, they were designed for **centralized data systems** and don't address the core requirements of **decentralized, verifiable, user-controlled location data**:
+- ✅ **Portable** across Ethereum, ATProto, IPFS, databases, and future systems
+- ✅ **Verifiable** through optional cryptographic signatures
+- ✅ **Unambiguous** with explicit versioning, coordinate systems, and format identifiers
+- ✅ **Extensible** with structured attributes, media, and proof mechanisms
 
-- **No standard for portable, signed location claims**: Applications need to prove "I was here" or "this happened here" in ways that can be verified across systems, but there's no interoperable way to do this.
-- **Ambiguous parsing across implementations**: When location data moves between Ethereum, ATProto, IPFS, or traditional databases, critical context (like coordinate reference systems or data formats) is often lost or interpreted inconsistently.
-- **Overly rigid for decentralized use cases**: Existing standards prescribe specific data models (e.g., GeoJSON locks you to WGS84) that don't work across Earth-based, metaverse, or symbolic location contexts.
-- **Difficult to extend safely**: Adding new fields or proof mechanisms to established formats risks breaking compatibility or creating vendor-specific forks.
+**You already use GeoJSON, KML, or H3?** Location Protocol wraps them with 4 required fields so they work everywhere.
 
-**The Location Protocol solves this by defining the absolute minimum fields required for spatial interoperability**, while enabling extensions for proofs, media, attributes, and implementation-specific needs.
+## The Problem We're Solving
 
-### What Makes Location Protocol Different?
+Existing geospatial standards (GeoJSON, KML, WKT, H3) are excellent at representing spatial data. **The problem isn't the formats themselves**—it's that they lack a standardized way to:
 
-| Standard | Purpose | Key Limitation for Decentralized Systems |
-|---|---|---|
-| **GeoJSON** | Represents geometries and features | Locked to WGS84; no built-in support for verification, proofs, or non-Earth coordinate systems |
-| **KML** | Google Earth visualization | XML-based, visualization-focused, not designed for verifiable claims or programmatic interop |
-| **STAC** | Catalog spatiotemporal assets (satellite imagery, etc.) | Heavy metadata model designed for asset catalogs, not minimal location claims |
-| **Overture Maps** | Open map data exchange | Focuses on map features and schema, not portable signed location records |
-| **Location Protocol** | **Minimal, verifiable, portable location records** | **Implementation-agnostic base layer with 4 required fields; supports both signed and unsigned records; extensible for any use case** |
+1. **Indicate which format is being used** - Is this GeoJSON? Coordinates? H3? Parsers have to guess.
+2. **Specify the coordinate system unambiguously** - GeoJSON assumes WGS84, but which axis order? What about other planets? Metaverse coordinates?
+3. **Make location data verifiable** - How do you cryptographically sign a location claim in a way that works across Ethereum, ATProto, and traditional systems?
+4. **Attach contextual metadata** - Timestamps, media, structured attributes, proofs—but without breaking compatibility.
+5. **Version the specification** - When the protocol evolves, how does a parser know which rules to apply?
 
-### Core Design Principles
+**Location Protocol provides the missing envelope.** It doesn't replace GeoJSON—it tells you "this is GeoJSON v1.0.0 in WGS84 lon/lat order, signed by Alice, with a photo attached."
 
-1. **Minimal Base Fields**: Only 4 required fields (`lp_version`, `srs`, `location_type`, `location`) ensure maximum portability
-2. **Implementation Agnostic**: Works across Ethereum, ATProto, IPFS, traditional databases, and future systems
-3. **OGC-Aligned**: Uses OGC URI standards for spatial reference systems to eliminate axis-order ambiguity
-4. **Signed or Unsigned**: Supports both cryptographically signed attestations and plain location records
-5. **Extensible by Design**: Optional composable fields (media, attributes, proofs, timestamps) without breaking core compatibility
-6. **Namespace Clean**: Uses `lp_` prefix and snake_case to avoid collisions when embedded in other specs (e.g., STAC Items)
+## How It Works
 
-## Who Is This For?
+Location Protocol defines **4 required fields** that wrap your spatial data:
 
-- **Decentralized application developers** building on Ethereum, ATProto, Farcaster, Nostr, or other decentralized protocols
-- **Geospatial data systems** that need interoperability between centralized and decentralized infrastructure
-- **Impact verification platforms** (dMRV, Hypercerts, Gitcoin) that require portable proof-of-location
-- **Social and check-in apps** that want user-controlled, verifiable location data
-- **Field data collection tools** (biodiversity monitoring, environmental sensing) that need to attach rich attributes to locations
+```json
+{
+  "lp_version": "1.0.0",              // Which version of this spec
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",  // Coordinate system (OGC standard URI)
+  "location_type": "geojson",         // What format is inside
+  "location": {                        // Your actual GeoJSON/H3/WKT/coordinates
+    "type": "Point",
+    "coordinates": [-122.4194, 37.7749]
+  }
+}
+```
+
+**That's it.** Four fields. Then you can optionally add:
+- `event_timestamp` - When this happened
+- `media_data` / `media_type` - Attach photos, videos
+- `attributes` / `attributes_schema` - Structured metadata (species observations, sensor readings, etc.)
+- `proof` - Cryptographic evidence or verification data
+
+## What Location Protocol Is NOT
+
+❌ **Not a replacement for GeoJSON/KML/WKT** - We use these formats inside the `location` field
+❌ **Not a new coordinate system** - We use OGC-standard SRS URIs
+❌ **Not blockchain-specific** - Works on Ethereum, ATProto, IPFS, PostgreSQL, anywhere
+❌ **Not trying to be STAC** - STAC is for asset catalogs; we're for minimal location claims
+
+## Why Not Just Use GeoJSON/KML/H3 Directly?
+
+**You can!** But when you need to:
+- Share location data between **Ethereum and ATProto** and have it mean the same thing
+- **Cryptographically sign** a location claim and verify it anywhere
+- Support **non-Earth coordinate systems** (Mars, metaverse, game worlds)
+- Attach **structured attributes** (field observations, sensor data) in a standard way
+- Work with **multiple spatial formats** in the same system (GeoJSON + H3 + coordinates)
+- **Version your data** so parsers know which validation rules to apply
+
+...you need a thin, standardized wrapper. That's Location Protocol.
+
+## Design Principles
+
+1. **Format Agnostic**: Works with GeoJSON, H3, WKT, coordinates, addresses, geohash—anything spatial
+2. **Implementation Agnostic**: Deploy on Ethereum, ATProto, IPFS, PostgreSQL, S3, anywhere
+3. **OGC Standards**: Uses official OGC URIs for coordinate systems (no more axis-order ambiguity)
+4. **Optionally Verifiable**: Add cryptographic signatures when you need them, skip them when you don't
+5. **Minimalist Core**: Only 4 required fields; everything else is optional
+6. **Safely Extensible**: Add attributes, media, proofs without breaking parsers
+
+## Use Cases
+
+- **Decentralized social apps** - Location check-ins that work across Bluesky, Farcaster, and Lens
+- **Impact verification** - Signed location proofs for carbon credits, biodiversity monitoring, grants (dMRV, Hypercerts, Gitcoin)
+- **Field data collection** - Attach structured attributes (species, measurements, conditions) to location records
+- **Cross-chain applications** - Location data that works on Ethereum, Base, Optimism, Celo, and beyond
+- **Interoperable systems** - Bridge between Web2 databases and Web3 protocols without data loss
+- **Non-Earth contexts** - Metaverse coordinates, Mars missions, game worlds—anywhere spatial data exists
 
 ## What's in This Repository
 
@@ -52,8 +94,9 @@ Existing geospatial data standards—GeoJSON, KML, STAC, Overture—are powerful
 
 **[🗂️ Location Type Registry](./docs/spec-page/specification/location-types.md)** — Supported spatial data formats (GeoJSON, H3, coordinates, etc.)
 
-## Quick Example
+## Examples
 
+**Minimal GeoJSON location:**
 ```json
 {
   "lp_version": "1.0.0",
@@ -66,7 +109,30 @@ Existing geospatial data standards—GeoJSON, KML, STAC, Overture—are powerful
 }
 ```
 
-That's it. Four fields. Parseable anywhere. Optionally signable. Endlessly extensible.
+**H3 cell with timestamp:**
+```json
+{
+  "lp_version": "1.0.0",
+  "srs": "http://www.opengis.net/def/crs/EPSG/0/4326",
+  "location_type": "h3",
+  "location": "8928308280fffff",
+  "event_timestamp": 1735689600
+}
+```
+
+**Field observation with structured attributes:**
+```json
+{
+  "lp_version": "1.0.0",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+  "location_type": "geojson",
+  "location": { "type": "Point", "coordinates": [-103.771556, 44.967243] },
+  "attributes": "{\"species\": \"Pinus ponderosa\", \"height_m\": 18.2, \"dbh_cm\": 45.3}",
+  "attributes_schema": "json:inline:eyJ0eXBlIjoib2JqZWN0In0="
+}
+```
+
+Four required fields. Infinite extensions. Works everywhere.
 
 ## Get Started
 
