@@ -17,34 +17,40 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://locationprotocol.io/schemas/v1/location-payload.schema.json",
   "title": "Location Protocol Payload",
-  "description": "A complete schema for a Location Protocol attestation payload.",
+  "description": "A complete schema for a Location Protocol record payload.",
   "type": "object",
   "properties": {
-    "specVersion": {
-      "$ref": "#/definitions/specVersion"
+    "lp_version": {
+      "$ref": "#/definitions/lp_version"
     },
     "srs": {
       "$ref": "#/definitions/srs"
     },
-    "locationType": {
-      "$ref": "#/definitions/locationType"
+    "location_type": {
+      "$ref": "#/definitions/location_type"
     },
     "location": {
-      "description": "The location data, whose format is determined by locationType.",
+      "description": "The location data, whose format is determined by location_type.",
       "oneOf": [
         { "$ref": "#/definitions/locationCoordinateDecimal" },
         { "$ref": "#/definitions/locationGeoJSON" },
         { "$ref": "#/definitions/locationH3" }
       ]
     },
-    "eventTimestamp": {
-      "$ref": "#/definitions/eventTimestamp"
+    "event_timestamp": {
+      "$ref": "#/definitions/event_timestamp"
     },
-    "mediaData": {
-      "$ref": "#/definitions/mediaData"
+    "media_data": {
+      "$ref": "#/definitions/media_data"
     },
-    "mediaType": {
-      "$ref": "#/definitions/mediaType"
+    "media_type": {
+      "$ref": "#/definitions/media_type"
+    },
+    "attributes": {
+      "$ref": "#/definitions/attributes"
+    },
+    "attributes_schema": {
+      "$ref": "#/definitions/attributes_schema"
     },
     "proof": {
       "$ref": "#/definitions/proof"
@@ -54,9 +60,9 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
       "description": "An object for custom, non-standard fields."
     }
   },
-  "required": ["specVersion", "srs", "locationType", "location"],
+  "required": ["lp_version", "srs", "location_type", "location"],
   "definitions": {
-    "specVersion": {
+    "lp_version": {
       "type": "string",
       "description": "The version of the Location Protocol specification.",
       "pattern": "^\\d+\\.\\d+\\.\\d+$",
@@ -64,14 +70,17 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
     },
     "srs": {
       "type": "string",
-      "description": "The Spatial Reference System for the location coordinates, preferably an EPSG code.",
-      "pattern": "^EPSG:\\d+$",
-      "examples": ["EPSG:4326"]
+      "description": "The Spatial Reference System URI, following OGC standards.",
+      "format": "uri",
+      "examples": [
+        "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+        "http://www.opengis.net/def/crs/EPSG/0/4326"
+      ]
     },
-    "locationType": {
+    "location_type": {
       "type": "string",
       "description": "Identifier for the location data format.",
-      "enum": ["coordinate-decimal.lon-lat", "geojson.point", "h3.index"]
+      "enum": ["coordinate_decimal", "geojson", "h3"]
     },
     "locationCoordinateDecimal": {
       "description": "Location as a longitude, latitude array.",
@@ -94,35 +103,42 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
       "type": "string",
       "pattern": "^[89ab][0-9a-f]{14}$"
     },
-    "eventTimestamp": {
-      "type": "string",
-      "description": "ISO 8601 timestamp of the event.",
-      "format": "date-time"
+    "event_timestamp": {
+      "type": "integer",
+      "description": "Unix timestamp (seconds since epoch) of the event.",
+      "exclusiveMinimum": 0
     },
-    "mediaData": {
+    "media_data": {
       "type": "string",
-      "description": "A URI or Content Identifier (CID) for associated media.",
-      "format": "uri"
+      "description": "A URI or Content Identifier (CID) for associated media."
     },
-    "mediaType": {
+    "media_type": {
       "type": "string",
-      "description": "The MIME type of the associated mediaData.",
+      "description": "The MIME type of the associated media_data.",
       "examples": ["image/jpeg", "video/mp4"]
+    },
+    "attributes": {
+      "type": "string",
+      "description": "JSON-encoded structured metadata or CID reference."
+    },
+    "attributes_schema": {
+      "type": "string",
+      "description": "Schema reference using prefix notation (e.g., 'json:inline:', 'ipfs:cid:', 'eas:chain:', 'atproto:lexicon:')."
     },
     "proof": {
       "type": "object",
       "description": "A cryptographic proof of the location claim.",
       "properties": {
-        "recipeType": {
+        "recipe_type": {
           "type": "string",
           "description": "Identifier for the proof generation method."
         },
-        "recipePayload": {
-          "type": "object",
+        "recipe_payload": {
+          "type": "string",
           "description": "The data required to verify the proof."
         }
       },
-      "required": ["recipeType", "recipePayload"]
+      "required": ["recipe_type", "recipe_payload"]
     }
   }
 }
@@ -132,14 +148,14 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
 
 Validating a location payload ensures it conforms to the protocol's structural and semantic rules. The process involves the following steps:
 
-1. **Select Schema**: Identify the `specVersion` from the payload and load the corresponding version of the Location Protocol schema.
+1. **Select Schema**: Identify the `lp_version` from the payload and load the corresponding version of the Location Protocol schema.
 2. **Choose a Validator**: Use a robust validation library that supports JSON Schema Draft 07 or later. Recommended tools include AJV for JavaScript/Node.js or equivalent validators for other languages.
 3. **Perform Structural Validation**: Validate the payload against the loaded schema. This initial pass checks for:
    - Presence of all `required` fields.
    - Correct data types for each field (e.g., `string`, `number`, `object`).
-   - Compliance with format constraints (e.g., `pattern` for `srs`, `format` for `eventTimestamp`).
-   - Adherence to enumerations (e.g., `locationType`).
-4. **Perform Conditional Validation**: The schema uses `oneOf` to enforce that the structure of the `location` field matches the specified `locationType`. The validator will automatically handle this conditional logic.
+   - Compliance with format constraints (e.g., `format` for `srs` and `event_timestamp`).
+   - Adherence to enumerations (e.g., `location_type`).
+4. **Perform Conditional Validation**: The schema uses `oneOf` to enforce that the structure of the `location` field matches the specified `location_type`. The validator will automatically handle this conditional logic.
 5. **Handle Errors**: If validation fails, the validator will report a list of errors, typically including the path to the invalid field and a description of the issue. This feedback is crucial for debugging malformed payloads.
 
 While the protocol specifies the schema, it does not mandate specific validator configurations (e.g., strict mode). Implementers should choose settings appropriate for their application's requirements.

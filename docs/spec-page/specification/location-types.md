@@ -1,6 +1,6 @@
 ## Location Format Types
 
-The Location Protocol is designed for flexibility, allowing location data to be represented in various formats. The `locationType` field is a mandatory string in the base data model that specifies the format of the data contained within the `location` field. This identifier is essential for interoperability, ensuring that any consuming application can correctly interpret the spatial information.
+The Location Protocol is designed for flexibility, allowing location data to be represented in various formats. The `location_type` field is a mandatory string in the base data model that specifies the format of the data contained within the `location` field. This identifier is essential for interoperability, ensuring that any consuming application can correctly interpret the spatial information.
 
 While the protocol is "extensible by design" to support custom formats, a standardized naming convention is proposed to ensure consistency, prevent collisions, and support versioning.
 
@@ -19,7 +19,7 @@ The recommended pattern is:
 
 ### Location Type Registry
 
-The current implementation uses simple, unversioned string identifiers for `locationType`. A formal registry is in development to standardize these types and manage future extensions. The following table lists the currently supported types and their proposed standardized identifiers for future releases.
+The current implementation uses simple, unversioned string identifiers for `location_type`. A formal registry is in development to standardize these types and manage future extensions. The following table lists the currently supported types and their proposed standardized identifiers for future releases.
 
 | Supported Location Types    | Description                                                                                                                                          |
 | :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -35,32 +35,32 @@ The current implementation uses simple, unversioned string identifiers for `loca
 
 The following examples demonstrate how to structure a Location Protocol payload for different location types, using the current, unversioned identifiers.
 
-#### `coordinate-decimal`
+#### `coordinate_decimal`
 
-Represents a single geographic point using decimal degrees. The example uses the `+lon-lat` modifier to indicate the order of the coordinates.
+Represents a single geographic point using decimal degrees.
 
 ```json
 {
-  "srs": "EPSG:4326",
-  "locationType": "coordinate-decimal+lon-lat",
-  "location": "-103.771556, 44.967243",
-  "specVersion": 1
+  "lp_version": "1.0.0",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+  "location_type": "coordinate_decimal",
+  "location": [-103.771556, 44.967243]
 }
 ```
 
-#### `geojson-point`
+#### `geojson`
 
 Represents a single geographic point using a GeoJSON Point object.
 
 ```json
 {
-  "srs": "EPSG:4326",
-  "locationType": "geojson-point",
+  "lp_version": "1.0.0",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+  "location_type": "geojson",
   "location": {
     "type": "Point",
     "coordinates": [-103.771556, 44.967243]
-  },
-  "specVersion": 1
+  }
 }
 ```
 
