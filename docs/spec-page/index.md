@@ -25,3 +25,4 @@ The Location Protocol establishes a standardized framework for cryptographically
 
 - [GeoJSON alignment](appendices/geojson-alignment.md)
 - [EAS integration](appendices/eas-integration.md)
+- [Spatial Reference Systems](appendices/srs.md)

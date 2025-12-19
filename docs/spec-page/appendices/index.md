@@ -4,3 +4,4 @@ This section provides additional resources and references to enhance understandi
 
 - [GeoJSON Alignment](geojson-alignment.md)
 - [EAS Integration](eas-integration.md)
+- [Spatial Reference Systems](srs.md)
