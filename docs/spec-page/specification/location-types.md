@@ -24,7 +24,7 @@ The current implementation uses simple, unversioned string identifiers for `loca
 | Supported Location Types    | Description                                                                                                                                          |
 | :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `coordinate-decimal`        | A pair of decimal degree coordinates. Default order is latitude, longitude. A `+lon-lat` modifier can be used for explicit longitude-first ordering. |
-| `geojson` / `geojson-point` | A GeoJSON object representing a geographic feature. The current specification shows usage for `Point` geometries.                                    |
+| `geojson` / `geojson-point` | A GeoJSON Geometry object representing a geographic feature. Supports all geometry types: Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, and GeometryCollection as defined in RFC 7946. |
 | `h3`                        | An H3 geospatial index representing a hexagonal cell.                                                                                                |
 | `geohash`                   | A Geohash string representing a geographic bounding box.                                                                                             |
 | `wkt`                       | A Well-Known Text (WKT) representation of a geometric object.                                                                                        |
@@ -60,6 +60,30 @@ Represents a single geographic point using a GeoJSON Point object.
   "location": {
     "type": "Point",
     "coordinates": [-103.771556, 44.967243]
+  }
+}
+```
+
+#### `geojson` (Polygon)
+
+Represents a geographic boundary or area using a GeoJSON Polygon object. The first coordinate array defines the outer boundary; subsequent arrays define holes (if any).
+
+```json
+{
+  "lp_version": "1.0.0",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+  "location_type": "geojson",
+  "location": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [-103.771556, 44.967243],
+        [-103.771556, 44.977243],
+        [-103.761556, 44.977243],
+        [-103.761556, 44.967243],
+        [-103.771556, 44.967243]
+      ]
+    ]
   }
 }
 ```

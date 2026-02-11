@@ -90,13 +90,15 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
       "maxItems": 2
     },
     "locationGeoJSON": {
-      "description": "A GeoJSON Point object as defined in RFC 7946.",
+      "description": "A GeoJSON Geometry object as defined in RFC 7946. Supports all geometry types: Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, and GeometryCollection.",
       "type": "object",
       "properties": {
-        "type": { "const": "Point" },
-        "coordinates": { "$ref": "#/definitions/locationCoordinateDecimal" }
+        "type": {
+          "enum": ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon", "GeometryCollection"]
+        }
       },
-      "required": ["type", "coordinates"]
+      "required": ["type"],
+      "additionalProperties": true
     },
     "locationH3": {
       "description": "Location as an H3 cell index.",
