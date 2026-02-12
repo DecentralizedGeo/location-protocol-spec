@@ -113,7 +113,7 @@ Location Protocol defines **4 required fields** that wrap your spatial data:
 ```json
 {
   "lp_version": "1.0.0",
-  "srs": "http://www.opengis.net/def/crs/EPSG/0/4326",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
   "location_type": "h3",
   "location": "8928308280fffff",
   "event_timestamp": 1735689600

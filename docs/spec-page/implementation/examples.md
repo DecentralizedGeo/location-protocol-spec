@@ -22,8 +22,8 @@ interface LocationPayload {
 
 // Create a new payload instance
 const payload: LocationPayload = {
-  specVersion: "1.0",
-  srs: "EPSG:4326",
+  specVersion: "1.0.0",
+  srs: "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
   locationType: "coordinate-decimal+lon-lat",
   location: [-74.006, 40.7128], // [longitude, latitude]
   eventTimestamp: new Date().toISOString(),
@@ -54,8 +54,8 @@ from datetime import datetime, timezone
 
 # Create a payload as a Python dictionary
 payload = {
-    "lp_version": "1.0",
-    "srs": "EPSG:4326",
+    "lp_version": "1.0.0",
+    "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
     "location_type": "coordinate-decimal+lon-lat",
     "location": [-74.0060, 40.7128],
     "event_timestamp": datetime.now(timezone.utc).isoformat()
@@ -96,7 +96,7 @@ import { encode, decode } from "cbor-x";
 // Payload from the previous example
 const payload = {
   specVersion: "1.0",
-  srs: "EPSG:4326",
+  srs: "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
   locationType: "coordinate-decimal+lon-lat",
   location: [-74.006, 40.7128],
 };
@@ -133,8 +133,8 @@ import base64
 import json
 
 payload = {
-    "lp_version": "1.0",
-    "srs": "EPSG:4326",
+    "lp_version": "1.0.0",
+    "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
     "location_type": "coordinate-decimal+lon-lat",
     "location": [-74.0060, 40.7128]
 }

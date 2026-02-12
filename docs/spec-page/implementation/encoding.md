@@ -71,7 +71,7 @@ This example illustrates the end-to-end encoding and hashing process using a Geo
 ```json
 {
   "lp_version": "1.0.0",
-  "srs": "EPSG:4326",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
   "location_type": "geojson-point",
   "location": {
     "type": "Point",
@@ -88,27 +88,27 @@ This example illustrates the end-to-end encoding and hashing process using a Geo
   "event_timestamp": "2025-06-25T23:18:00Z",
   "location": { "coordinates": [-103.771556, 44.967243], "type": "Point" },
   "location_type": "geojson-point",
-  "srs": "EPSG:4326",
-  "lp_version": "1.0.0"
+  "lp_version": "1.0.0",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
 }
 ```
 
 **3. Canonical CBOR Representation (as hex)**
 
 ```
-a5656576656e7454696d657374616d7074323032352d30362d32355432333a31383a30305a686c6f636174696f6ea26b636f6f7264696e6174657382fbc059ef381e84812ffb40467b8118481f0a647479706565506f696e746c6c6f636174696f6e547970656767656f4a736f6e6373727368455053473a343332366b7370656356657273696f6e65312e302e30
+a563737273782c687474703a2f2f7777772e6f70656e6769732e6e65742f6465662f6372732f4f47432f312e332f4352533834686c6f636174696f6ea2647479706565506f696e746b636f6f7264696e6174657382fbc059f1612c6ac216fb40467bce9e5e24796a6c705f76657273696f6e65312e302e306d6c6f636174696f6e5f747970656d67656f6a736f6e2d706f696e746f6576656e745f74696d657374616d7074323032352d30362d32355432333a31383a30305a
 ```
 
 **4. Base64-Encoded CBOR**
 
 ```
-pWVldmVudFRpbWVzdGFtcHQyMDI1LTA2LTI1VDIzOjE4OjAwWmhsb2NhdGlvboJrY29vcmRpbmF0ZXOC+8AZ7zgehIEv+0BHeyJBGIEfCmR0eXBlZVBvaW50bGxvY2F0aW9uVHlwZWdnZW9Kc29uY3Nyc2hFUFNHOjQzMjZrc3BlY1ZlcnNpb25lMS4wLjA=
+pWNzcnN4LGh0dHA6Ly93d3cub3Blbmdpcy5uZXQvZGVmL2Nycy9PR0MvMS4zL0NSUzg0aGxvY2F0aW9uomR0eXBlZVBvaW50a2Nvb3JkaW5hdGVzgvvAWfFhLGrCFvtARnvOnl4keWpscF92ZXJzaW9uZTEuMC4wbWxvY2F0aW9uX3R5cGVtZ2VvanNvbi1wb2ludG9ldmVudF90aW1lc3RhbXB0MjAyNS0wNi0yNVQyMzoxODowMFo=
 ```
 
 **5. Hashed Payload (SHA-256 of CBOR bytes)**
 
 ```
-61f6259024a56a683933a35b84c8d350438a70514a60c8e39c4a450125732101
+6d1c84f5ca7a3e794ca661e60c272753bce9587b1a6202cd3427135200240af9
 ```
 
 ### Extensibility and Custom Fields

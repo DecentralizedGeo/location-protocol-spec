@@ -145,11 +145,11 @@ This example shows field observation data with an inline JSON schema reference.
 ```json
 {
   "lp_version": "1.0.0",
-  "srs": "http://www.opengis.net/def/crs/EPSG/0/4326",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
   "location_type": "geojson-point",
   "location": {
     "type": "Point",
-    "coordinates": [44.967243, -103.771556]
+    "coordinates": [-103.771556, 44.967243]
   },
   "attributes": "{\"species\": \"Pinus ponderosa\", \"height_m\": 18.2, \"dbh_cm\": 45.3}",
   "attributes_schema": "json:inline:eyJ0eXBlIjoib2JqZWN0IiwicHJvcGVydGllcyI6eyJzcGVjaWVzIjp7InR5cGUiOiJzdHJpbmcifSwiaGVpZ2h0X20iOnsidHlwZSI6Im51bWJlciJ9fX0="

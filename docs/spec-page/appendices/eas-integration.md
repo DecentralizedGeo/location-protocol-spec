@@ -114,7 +114,7 @@ import { SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 
 // 1. Define the data payload matching the schema
 const locationPayload = [
-  { name: "srs", value: "EPSG:4326", type: "string" },
+  { name: "srs", value: "http://www.opengis.net/def/crs/OGC/1.3/CRS84", type: "string" },
   { name: "location_type", value: "coordinate-decimal+lon-lat", type: "string" },
   { name: "location", value: "-103.771556, 44.967243", type: "string" },
   { name: "lp_version", value: 1, type: "uint8" },

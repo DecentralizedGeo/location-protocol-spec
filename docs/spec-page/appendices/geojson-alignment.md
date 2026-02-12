@@ -12,7 +12,7 @@ The table below illustrates the direct mapping between Location Protocol's core 
 | :---------------------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `location_type`          | N/A                | A Location Protocol field that specifies the format of the `location` data. For a GeoJSON Point Object, this would be set to `geojson-point`.                                                    |
 | `location`              | `geometry`         | The `location` field directly holds a standard GeoJSON `Geometry` object (e.g., Point, LineString, Polygon).                                                                |
-| `srs`                   | `crs` (deprecated) | Specifies the Spatial Reference System. For GeoJSON, this MUST be `EPSG:4326` to comply with RFC 7946, which mandates WGS 84.                                               |
+| `srs`                   | `crs` (deprecated) | Specifies the Spatial Reference System. For GeoJSON, this SHOULD be `http://www.opengis.net/def/crs/OGC/1.3/CRS84` (WGS 84 with longitude/latitude order) to align with RFC 7946. |
 | `composable-fields`     | `properties`       | Optional fields in the Location Protocol payload can be used to store the contents of the GeoJSON `properties` object, preserving all metadata associated with the feature. |
 
 ### Migration Guidance: GeoJSON to Location Protocol
@@ -24,7 +24,7 @@ Converting an existing GeoJSON `Feature` object into a Location Protocol payload
 3. **Set `location_type`**: Set the `location_type` field to `"geojson-point"` to indicate the format of the location data.
 4. **Assign Geometry**: Copy the entire `geometry` object from the GeoJSON `Feature` into the `location` field of the protocol payload.
 5. **Assign Properties**: Copy the `properties` object from the GeoJSON `Feature` into a suitable composable field, such as `metadata`, within the Location Protocol payload.
-6. **Set Spatial Reference System (`srs`)**: Set the `srs` field to `"EPSG:4326"`. According to RFC 7946, GeoJSON coordinates are always in the World Geodetic System 1984 (WGS 84), and `EPSG:4326` is the corresponding identifier.
+6. **Set Spatial Reference System (`srs`)**: Set the `srs` field to `"http://www.opengis.net/def/crs/OGC/1.3/CRS84"`. According to RFC 7946, GeoJSON coordinates are always in the World Geodetic System 1984 (WGS 84), and this URI specifically denotes WGS 84 with longitude, latitude coordinate order.
 
 #### Example Conversion
 
@@ -50,8 +50,8 @@ This example demonstrates the transformation of a GeoJSON `Feature` into a Locat
 
 ```json
 {
-  "lp_version": "1.0",
-  "srs": "EPSG:4326",
+  "lp_version": "1.0.0",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
   "location_type": "geojson-point",
   "location": {
     "type": "Point",
@@ -78,7 +78,7 @@ graph TD
     F[Set LP 'location_type' = 'geojson-point'] --> G{Construct Location Protocol Payload};
     D --> G;
     E --> G;
-    H[Set LP 'srs' = 'EPSG:4326'] --> G;
+    H[Set LP 'srs' = 'http://www.opengis.net/def/crs/OGC/1.3/CRS84'] --> G;
 ```
 
 ### Interoperability Matrix

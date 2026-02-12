@@ -34,7 +34,7 @@ To continue your cross-domain journey, consider the following resources:
 
 - Begin with an introduction to fundamental **Geospatial Concepts**.
 - Familiarize yourself with the [**GeoJSON** specification](https://geojson.org/) for structuring location data.
-- Understand **Spatial Reference Systems (SRS)**, particularly `EPSG:4326`, which is the standard for GPS coordinates.
+- Understand **Spatial Reference Systems (SRS)**, particularly `http://www.opengis.net/def/crs/OGC/1.3/CRS84`, which is the standard for GPS coordinates.
 
 ---
 
