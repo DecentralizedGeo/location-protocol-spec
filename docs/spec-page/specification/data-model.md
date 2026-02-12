@@ -4,39 +4,41 @@ Every Location Protocol payload must be a JSON object containing a set of requir
 
 ### Field Definitions and Constraints
 
-The base data model consists of four required fields: `specVersion`, `srs`, `locationType`, and `location`. Implementations must ensure these fields are present and valid in every Location Protocol payload.
+The base data model consists of four required fields: `lp_version`, `srs`, `location_type`, and `location`. Implementations must ensure these fields are present and valid in every Location Protocol payload.
 
-**`specVersion`**
+**`lp_version`**
 
-- **Description**: A string that identifies the version of the Location Protocol specification to which the payload conforms. This ensures parsers can apply the correct rules for validation and interpretation.
+- **Description**: A string that identifies the version of the Location Protocol specification to which the payload conforms. This ensures parsers can apply the correct rules for validation and interpretation. The field name uses snake_case and is namespaced with `lp_` to avoid conflicts when Location Protocol payloads are embedded within other specifications (e.g., STAC Items).
 - **Type**: `string`
 - **Constraints**:
   - This field is **required**.
-  - The value MUST follow a `major.minor` semantic versioning pattern (e.g., "1.0").
+  - The value MUST follow semantic versioning with the pattern `major.minor.patch` (e.g., "1.0.0").
 
 **`srs`**
 
-- **Description**: A string specifying the Spatial Reference System (SRS) used for the coordinate values within the `location` field. Using a standard identifier is critical for interoperability.
+- **Description**: A URI specifying the Spatial Reference System (SRS) used for the coordinate values within the `location` field. Using a resolvable, machine-readable URI is critical for unambiguous spatial interpretation and interoperability.
 - **Type**: `string`
 - **Constraints**:
   - This field is **required**.
-  - The value SHOULD be a standardized identifier, with the format `authority:code` being recommended (e.g., "EPSG:4326").
+  - The value MUST be a valid HTTP URI or URN.
+  - The value SHOULD use the OGC URI format: `http://www.opengis.net/def/crs/{authority}/{version}/{code}` (e.g., `http://www.opengis.net/def/crs/EPSG/0/4326` for WGS 84 with latitude/longitude order, or `http://www.opengis.net/def/crs/OGC/1.3/CRS84` for WGS 84 with longitude/latitude order).
+  - Short codes like "EPSG:4326" are deprecated in favor of full URIs. More details on the deprecation can be found in the **Spatial Reference Systems** appendix resources page: [Deprecation of legacy shorthand codes](../appendices/srs.md#deprecation-of-legacy-shorthand-codes).
 
-**`locationType`**
+**`location_type`**
 
 - **Description**: A string that defines the format of the data contained in the `location` field. This acts as a schema identifier, informing the consumer how to parse the `location` data.
 - **Type**: `string`
 - **Constraints**:
   - This field is **required**.
-  - The value MUST correspond to an identifier in the official Location Type Registry (e.g., `geojson`, `h3`, `coordinate-decimal`).
+  - The value MUST correspond to an identifier in the official Location Type Registry (e.g., `geojson-point`, `h3`, `coordinate-decimal+lon-lat`).
 
 **`location`**
 
-- **Description**: The field containing the core spatial data. The structure of this field is determined by the value of `locationType`.
+- **Description**: The field containing the core spatial data. The structure of this field is determined by the value of `location_type`.
 - **Type**: `string | number[] | object`
 - **Constraints**:
   - This field is **required**.
-  - The data structure MUST be valid according to the format specified by `locationType`. For example, if `locationType` is `geojson`, this field must contain a valid GeoJSON Geometry Object as defined in RFC 7946.
+  - The data structure MUST be valid according to the format specified by `location_type`. For example, if `location_type` is `geojson`, this field must contain a valid GeoJSON Geometry Object as defined in RFC 7946.
 
 ### Schema Definitions
 
@@ -52,39 +54,40 @@ This schema can be used for programmatic validation of Location Protocol payload
   "description": "The base structure for a Location Protocol payload.",
   "type": "object",
   "properties": {
-    "specVersion": {
-      "description": "The specification version (e.g., '1.0').",
+    "lp_version": {
+      "description": "The specification version (e.g., '1.0.0').",
       "type": "string",
-      "pattern": "^\\d+\\.\\d+$"
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
     },
     "srs": {
-      "description": "The Spatial Reference System identifier (e.g., 'EPSG:4326').",
-      "type": "string"
+      "description": "The Spatial Reference System URI (e.g., 'http://www.opengis.net/def/crs/EPSG/0/4326').",
+      "type": "string",
+      "format": "uri"
     },
-    "locationType": {
+    "location_type": {
       "description": "The format of the 'location' field, from the Location Type Registry.",
       "type": "string"
     },
     "location": {
-      "description": "The spatial data, whose structure is defined by 'locationType'."
+      "description": "The spatial data, whose structure is defined by 'location_type'."
     }
   },
-  "required": ["specVersion", "srs", "locationType", "location"]
+  "required": ["lp_version", "srs", "location_type", "location"]
 }
 ```
 
 ### Validation Rules and Flow
 
-Validation is a sequential process. An implementation must check for the presence and syntactic validity of all required base fields before proceeding to semantic validation (i.e., checking if the `location` data matches the `locationType`).
+Validation is a sequential process. An implementation must check for the presence and syntactic validity of all required base fields before proceeding to semantic validation (i.e., checking if the `location` data matches the `location_type`).
 
 **Validation Checks**
 
 - The payload MUST be a valid JSON object.
-- The `specVersion` field MUST be present and its value MUST match the `major.minor` version pattern.
-- The `srs` field MUST be present and contain a non-empty string.
-- The `locationType` field MUST be present and contain a non-empty string.
+- The `lp_version` field MUST be present and its value MUST match the `major.minor.patch` semantic versioning pattern.
+- The `srs` field MUST be present and contain a valid URI.
+- The `location_type` field MUST be present and contain a non-empty string.
 - The `location` field MUST be present.
-- The value of the `location` field MUST validate against the schema defined for the given `locationType`.
+- The value of the `location` field MUST validate against the schema defined for the given `location_type`.
 
 **Validation Flowchart**
 The following diagram illustrates the validation sequence for the base fields.
@@ -95,9 +98,9 @@ graph TD
     B -- Yes --> C{Are all required base fields present?};
     B -- No --> Z[Fail: Invalid JSON];
     C -- No --> Y[Fail: Missing Required Field];
-    C -- Yes --> D{Is 'specVersion' format valid?};
-    D -- No --> X[Fail: Invalid specVersion];
-    D -- Yes --> E{Is 'location' data valid for 'locationType'?};
+    C -- Yes --> D{Is 'lp_version' format valid?};
+    D -- No --> X[Fail: Invalid lp_version];
+    D -- Yes --> E{Is 'location' data valid for 'location_type'?};
     E -- No --> W[Fail: Mismatched Location Data];
     E -- Yes --> V[Success: Base Fields Valid];
 
@@ -114,13 +117,13 @@ graph TD
 ### Payload Examples
 
 **Valid Payload**
-This example shows a correctly formatted payload using the `geojson` location type.
+This example shows a correctly formatted payload using the `geojson-point` location type.
 
 ```json
 {
-  "specVersion": "1.0",
-  "srs": "EPSG:4326",
-  "locationType": "geojson",
+  "lp_version": "1.0.0",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [-103.771556, 44.967243]
@@ -134,8 +137,8 @@ These examples demonstrate common validation errors.
 ```json
 // Invalid: Missing the required 'srs' field.
 {
-  "specVersion": "1.0",
-  "locationType": "geojson",
+  "lp_version": "1.0.0",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [-103.771556, 44.967243]
@@ -144,11 +147,11 @@ These examples demonstrate common validation errors.
 ```
 
 ```json
-// Invalid: 'specVersion' does not match the required pattern.
+// Invalid: 'lp_version' does not match the required pattern.
 {
-  "specVersion": "v1",
-  "srs": "EPSG:4326",
-  "locationType": "geojson",
+  "lp_version": "v1",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [-103.771556, 44.967243]
@@ -157,11 +160,11 @@ These examples demonstrate common validation errors.
 ```
 
 ```json
-// Invalid: 'location' data (an array) does not match the 'geojson' locationType (expects an object).
+// Invalid: 'location' data (an array) does not match the 'geojson-point' location_type (expects an object).
 {
-  "specVersion": "1.0",
-  "srs": "EPSG:4326",
-  "locationType": "geojson",
+  "lp_version": "1.0.0",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+  "location_type": "geojson-point",
   "location": [-103.771556, 44.967243]
 }
 ```

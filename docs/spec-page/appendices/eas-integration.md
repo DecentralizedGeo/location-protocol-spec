@@ -67,7 +67,7 @@ A schema is defined as a comma-separated string of `type name` pairs. The base s
 
 ```typescript
 const schemaString =
-  "string srs, string locationType, string location, uint8 specVersion";
+  "string srs, string location_type, string location, uint8 lp_version";
 ```
 
 **2. Register the Schema**
@@ -86,7 +86,7 @@ const schemaRegistry = new SchemaRegistry(SCHEMA_REGISTRY_ADDRESS);
 schemaRegistry.connect(signer); // Use the same signer as before
 
 const schemaString =
-  "string srs, string locationType, string location, uint8 specVersion";
+  "string srs, string location_type, string location, uint8 lp_version";
 const revocable = true; // Set to 'true' if attestations using this schema can be revoked
 
 const transaction = await schemaRegistry.register({
@@ -114,15 +114,15 @@ import { SchemaEncoder } from "@ethereum-attestation-service/eas-sdk";
 
 // 1. Define the data payload matching the schema
 const locationPayload = [
-  { name: "srs", value: "EPSG:4326", type: "string" },
-  { name: "locationType", value: "coordinate-decimal+lon-lat", type: "string" },
+  { name: "srs", value: "http://www.opengis.net/def/crs/OGC/1.3/CRS84", type: "string" },
+  { name: "location_type", value: "coordinate-decimal+lon-lat", type: "string" },
   { name: "location", value: "-103.771556, 44.967243", type: "string" },
-  { name: "specVersion", value: 1, type: "uint8" },
+  { name: "lp_version", value: 1, type: "uint8" },
 ];
 
 // 2. Initialize the SchemaEncoder with the schema string
 const schemaEncoder = new SchemaEncoder(
-  "string srs, string locationType, string location, uint8 specVersion"
+  "string srs, string location_type, string location, uint8 lp_version"
 );
 
 // 3. Encode the data
@@ -196,7 +196,7 @@ EAS is deployed on multiple networks. For development and testing, use a testnet
 On-chain transactions, including schema registration and attestation, require gas fees. Gas costs are influenced by network congestion and the size of the transaction data. For attestations with large payloads, the cost can be significant.
 
 **Handling Large Payloads with IPFS**
-To manage costs for large data payloads, such as high-resolution images or videos associated with a location, it is recommended to store the data on a decentralized storage network like IPFS. The Location Protocol's `mediaData` field can store the IPFS Content Identifier (CID) of the file, keeping the on-chain payload small and cost-effective.
+To manage costs for large data payloads, such as high-resolution images or videos associated with a location, it is recommended to store the data on a decentralized storage network like IPFS. The Location Protocol's `media_data` field can store the IPFS Content Identifier (CID) of the file, keeping the on-chain payload small and cost-effective.
 
 **Security Best Practices**
 

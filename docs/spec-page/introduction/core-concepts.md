@@ -12,25 +12,25 @@ The following terms are used consistently throughout the specification. Precise 
 
 The primary fields include:
 
-- `srs`: The Spatial Reference System identifier (e.g., `EPSG:4326`) that defines the coordinate system.
-- `locationType`: An identifier for the format of the `location` data (e.g., `coordinate-decimal`, `geojson`).
-- `location`: The geospatial data itself, formatted according to `locationType`.
-- `specVersion`: The version of the Location Protocol specification the payload adheres to.
+- `lp_version`: The version of the Location Protocol specification the payload adheres to (e.g., `"1.0.0"`).
+- `srs`: The Spatial Reference System URI (e.g., `http://www.opengis.net/def/crs/OGC/1.3/CRS84`) that defines the coordinate system.
+- `location_type`: An identifier for the format of the `location` data (e.g., `coordinate-decimal+lon-lat`, `geojson-point`).
+- `location`: The geospatial data itself, formatted according to `location_type`.
 
 ```json
 {
-  "srs": "EPSG:4326",
-  "locationType": "coordinate-decimal/lon-lat",
-  "location": [-103.771556, 44.967243],
-  "specVersion": "1.0"
+  "lp_version": "1.0.0",
+  "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+  "location_type": "coordinate-decimal+lon-lat",
+  "location": [-103.771556, 44.967243]
 }
 ```
 
-**Location Attestation**: A cryptographically signed, verifiable claim containing a Location Payload. It serves as a "Proof-of-Location," providing verifiable evidence that an event occurred at a specific place and time. The attestation ensures the integrity and authenticity of the location data, linking it to a specific signer.
+**Location Record**: A structured, portable representation of location data that can optionally be cryptographically signed for verification. When signed, a Location Record becomes a verifiable claim (often called a "Location Attestation") that provides evidence an event occurred at a specific place and time. The protocol is designed to support both signed and unsigned records, enabling use across centralized, decentralized, and hybrid systems.
 
-**Schema**: Defines the structure, data types, and validation rules for a Location Payload. Schemas are essential for ensuring data consistency and integrity across different implementations. Systems like the Ethereum Attestation Service (EAS) use schemas to register and validate the structure of attestations before they are recorded.
+**Schema**: Defines the structure, data types, and validation rules for a Location Payload. Schemas are essential for ensuring data consistency and integrity across different implementations. Systems like the Ethereum Attestation Service (EAS) use schemas to register and validate the structure of records before they are stored.
 
-**Proof Types**: Refers to the different methods and evidence used to generate and support a Location Attestation. The protocol is extensible to support a variety of proof mechanisms, which can be specified in the payload's optional proof fields (`recipeType` and `recipePayload`). These can range from simple assertions to complex, multi-source verifications.
+**Proof Types**: Refers to the different methods and evidence used to generate and support a Location Record. The protocol is extensible to support a variety of proof mechanisms, which can be specified in the payload's optional proof fields (`stamp_type` and `stamps`). These can range from simple assertions to complex, multi-source verifications.
 
 Examples of conceptual proof categories include:
 
@@ -45,37 +45,39 @@ The protocol's architecture separates the data payload from the attestation, ena
 
 #### **Conceptual Architecture**
 
-The core components interact to create a verifiable location claim. The `Location Payload` is the data, the `Schema` is its blueprint, and the `Location Attestation` is the signed, verifiable wrapper around that data.
+The core components interact to create a verifiable location record. The `Location Payload` is the data, the `Schema` is its blueprint, and the `Location Record` can optionally be cryptographically signed for verification.
 
 ```mermaid
 graph TD;
-    A["Location Payload <br/> (srs, location, etc.)"] -->|is structured by| B(Schema);
-    A -->|is contained within| C(Location Attestation);
-    D(Signer) -->|cryptographically signs| C;
+    A["Location Payload <br/> (lp_version, srs, location_type, location)"] -->|is structured by| B(Schema);
+    A -->|is contained within| C(Location Record);
+    D(Signer) -->|optionally signs| C;
 ```
 
-#### **Data Attestation Flow**
+#### **Data Record Flow**
 
-Creating a valid Location Attestation follows a clear, sequential process, ensuring that data is well-formed and securely signed before being shared or verified.
+Creating a valid Location Record follows a clear, sequential process, ensuring that data is well-formed and optionally signed before being shared or verified.
 
 ```mermaid
 graph TD;
     A(Data Preparation <br/> Collect location data) --> B(Schema Validation <br/> Validate against schema);
-    B --> C(Payload Encoding <br/> Serialize to a canonical format);
-    C --> D(Attestation Signing <br/> Sign encoded payload with private key);
-    D --> E(Verification <br/> Verify signature and data integrity);
+    B --> C(Payload Encoding <br/> Serialize to canonical format);
+    C --> D{Sign Record?};
+    D -- Yes --> E(Record Signing <br/> Sign with private key);
+    D -- No --> F(Store/Share Unsigned);
+    E --> G(Verification <br/> Verify signature and data integrity);
 ```
 
 ### Protocol vs. Implementation
 
 It is crucial to distinguish between the protocol specification and its various implementations.
 
-- The **Location Protocol** is the set of rules and data formats described in this specification. It defines _what_ a valid Location Payload and Attestation are.
-- An **implementation** is a specific software system that uses the protocol. For example, the Ethereum Attestation Service (EAS) can serve as an on-chain backend for creating, storing, and resolving Location Attestations, but it is only one of many possible implementations.
+- The **Location Protocol** is the set of rules and data formats described in this specification. It defines _what_ a valid Location Payload and Record are.
+- An **implementation** is a specific software system that uses the protocol. For example, the Ethereum Attestation Service (EAS) can serve as an on-chain backend for creating, storing, and resolving signed Location Records, while ATProto provides another implementation pattern for the decentralized social web. The protocol is designed to be implementation-agnostic.
 
 ### Spatial Reference Systems (SRS)
 
-A Spatial Reference System (SRS), also known as a Coordinate Reference System (CRS), is a framework used to precisely define locations on Earth's surface. Every Location Payload must include an `srs` identifier, such as `EPSG:4326`, which is the standard for GPS coordinates (WGS 84). This field is mandatory to prevent ambiguity and ensure that coordinate values are interpreted correctly by any application consuming the data.
+A Spatial Reference System (SRS), also known as a Coordinate Reference System (CRS), is a framework used to precisely define locations on Earth's surface (or other celestial bodies). Every Location Payload must include an `srs` URI. The protocol follows OGC standards, using URIs like `http://www.opengis.net/def/crs/OGC/1.3/CRS84` (for WGS 84 with longitude/latitude order) or `http://www.opengis.net/def/crs/EPSG/0/4326` (for WGS 84 with latitude/longitude order). This field is mandatory to prevent ambiguity about coordinate systems and axis order, ensuring that coordinate values are interpreted correctly by any application consuming the data.
 
 ### Extensibility Framework
 
@@ -83,9 +85,9 @@ The Location Protocol is designed for extensibility to support evolving use case
 
 Key extension points include:
 
-- **Location Types**: New `locationType` identifiers can be proposed to support different geospatial data formats beyond the core set (e.g., `h3`, `wkt`).
-- **Proof Types**: The `recipeType` field allows for new proof mechanisms to be defined, enabling different strategies for location verification.
-- **Composable Fields**: Optional fields can be added to payloads to support use cases like attaching media or other contextual data.
+- **Location Types**: New `location_type` identifiers can be proposed to support different geospatial data formats beyond the core set (e.g., `h3`, `wkt-polygon`, `geohash`).
+- **Proof Types**: The `stamp_type` field allows for new proof mechanisms to be defined, enabling different strategies for location verification.
+- **Composable Fields**: Optional fields can be added to payloads to support use cases like attaching media, structured attributes, timestamps, or other contextual data.
 
 ---
 
