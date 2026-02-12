@@ -150,6 +150,8 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
 
 Validating a location payload ensures it conforms to the protocol's structural and semantic rules. The process involves the following steps:
 
+> **Note:** The `srs` property in all schemas MUST use a full URI (e.g., `http://www.opengis.net/def/crs/OGC/1.3/CRS84`). Shorthand codes like "EPSG:4326" are deprecated. See [Deprecation of legacy shorthand codes](../appendices/srs.md#deprecation-of-legacy-shorthand-codes).
+
 1. **Select Schema**: Identify the `lp_version` from the payload and load the corresponding version of the Location Protocol schema.
 2. **Choose a Validator**: Use a robust validation library that supports JSON Schema Draft 07 or later. Recommended tools include AJV for JavaScript/Node.js or equivalent validators for other languages.
 3. **Perform Structural Validation**: Validate the payload against the loaded schema. This initial pass checks for:
