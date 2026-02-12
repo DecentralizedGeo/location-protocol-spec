@@ -22,9 +22,9 @@ interface LocationPayload {
 
 // Create a new payload instance
 const payload: LocationPayload = {
-  specVersion: "1.0",
-  srs: "EPSG:4326",
-  locationType: "coordinate-decimal.lon-lat",
+  specVersion: "1.0.0",
+  srs: "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+  locationType: "coordinate-decimal+lon-lat",
   location: [-74.006, 40.7128], // [longitude, latitude]
   eventTimestamp: new Date().toISOString(),
 };
@@ -54,17 +54,17 @@ from datetime import datetime, timezone
 
 # Create a payload as a Python dictionary
 payload = {
-    "specVersion": "1.0",
-    "srs": "EPSG:4326",
-    "locationType": "coordinate-decimal.lon-lat",
+    "lp_version": "1.0.0",
+    "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+    "location_type": "coordinate-decimal+lon-lat",
     "location": [-74.0060, 40.7128],
-    "eventTimestamp": datetime.now(timezone.utc).isoformat()
+    "event_timestamp": datetime.now(timezone.utc).isoformat()
 }
 
 # Basic validation function
 def validate_payload(p: dict) -> bool:
     """Checks for the presence of required fields in the payload."""
-    required_fields = ["specVersion", "srs", "locationType", "location"]
+    required_fields = ["lp_version", "srs", "location_type", "location"]
     if not all(field in p for field in required_fields):
         print("Validation Error: Missing one or more required fields.")
         return False
@@ -96,8 +96,8 @@ import { encode, decode } from "cbor-x";
 // Payload from the previous example
 const payload = {
   specVersion: "1.0",
-  srs: "EPSG:4326",
-  locationType: "coordinate-decimal.lon-lat",
+  srs: "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+  locationType: "coordinate-decimal+lon-lat",
   location: [-74.006, 40.7128],
 };
 
@@ -133,9 +133,9 @@ import base64
 import json
 
 payload = {
-    "specVersion": "1.0",
-    "srs": "EPSG:4326",
-    "locationType": "coordinate-decimal.lon-lat",
+    "lp_version": "1.0.0",
+    "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+    "location_type": "coordinate-decimal+lon-lat",
     "location": [-74.0060, 40.7128]
 }
 
@@ -227,7 +227,7 @@ async function createLocationAttestation(encodedPayload: string) {
 
 // Encoded payload from the previous step
 const encodedPayload =
-  "p2xWc3BlY1ZlcnNpb25jMS4wc3Nyc2ppRVBTRzo0MzI2bWxvY2F0aW9uVHlwZXVjb29yZGluYXRlLWRlY2ltYWwubG9uLWxhdGdsb2NhdGlvblgCGo4AAAAAAFlAnY5AQUFBQUFBRUE";
+  "pGNzcnN4LGh0dHA6Ly93d3cub3Blbmdpcy5uZXQvZGVmL2Nycy9PR0MvMS4zL0NSUzg0aGxvY2F0aW9ugvvAUoBiTdLxqvtARFs9B8hLXmtzcGVjVmVyc2lvbmMxLjBsbG9jYXRpb25UeXBleBpjb29yZGluYXRlLWRlY2ltYWwrbG9uLWxhdA";
 createLocationAttestation(encodedPayload);
 ```
 
@@ -305,12 +305,12 @@ const locationProtocolSchema = {
   type: "object",
   properties: {
     specVersion: { type: "string" },
-    srs: { type: "string", pattern: "^EPSG:[0-9]+$" },
+    srs: { type: "string", pattern: "^http://www.opengis.net/def/crs/.*$" },
     locationType: { type: "string" },
-    location: {}, // Can be an array, object, or string depending on locationType
+    location: {}, // Can be an array, object, or string depending on location_Type
   },
-  required: ["specVersion", "srs", "locationType", "location"],
-  additionalProperties: true,
+  required: ["lp_version", "srs", "location_type", "location"],
+  srs: "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
 };
 
 const validate = ajv.compile(locationProtocolSchema);
@@ -338,7 +338,7 @@ function verifyPayload(encodedPayload: string): boolean {
 
 // Encoded payload from a trusted source
 const encodedPayload =
-  "p2xWc3BlY1ZlcnNpb25jMS4wc3Nyc2ppRVBTRzo0MzI2bWxvY2F0aW9uVHlwZXVjb29yZGluYXRlLWRlY2ltYWwubG9uLWxhdGdsb2NhdGlvblgCGo4AAAAAAFlAnY5AQUFBQUFBRUE";
+  "pGNzcnN4LGh0dHA6Ly93d3cub3Blbmdpcy5uZXQvZGVmL2Nycy9PR0MvMS4zL0NSUzg0aGxvY2F0aW9ugvvAUoBiTdLxqvtARFs9B8hLXmtzcGVjVmVyc2lvbmMxLjBsbG9jYXRpb25UeXBleBpjb29yZGluYXRlLWRlY2ltYWwrbG9uLWxhdA";
 const isVerified = verifyPayload(encodedPayload);
 console.assert(isVerified, "Payload verification should succeed");
 ```
@@ -398,7 +398,7 @@ Following best practices ensures your implementation is secure, efficient, and i
 | Category         | :white_check_mark: Best Practices (Do)                                                                                          | :x: Anti-Patterns (Don't)                                                                        |
 | :--------------- | :------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------- |
 | **Payloads**     | Validate payloads against the JSON Schema before encoding and attesting.                                                        | Don't create attestations with unvalidated or malformed payloads.                                |
-|                  | Use CIDs (Content Identifiers) in the `mediaData` field to reference large files stored on IPFS or other decentralized storage. | Don't embed large binary data (e.g., images, videos) directly into the payload.                  |
+|                  | Use CIDs (Content Identifiers) in the `media_data` field to reference large files stored on IPFS or other decentralized storage. | Don't embed large binary data (e.g., images, videos) directly into the payload.                  |
 | **Encoding**     | Use a library that supports canonical CBOR to ensure deterministic output.                                                      | Don't manually construct JSON strings, as this can lead to non-deterministic serialization.      |
 | **Attestations** | Prefer off-chain attestations for cost-effectiveness, especially for high-frequency data.                                       | Don't create on-chain attestations for every location update unless required for on-chain logic. |
 |                  | Pin the UID of the specific schema version you are targeting to avoid unexpected changes.                                       | Don't use a mutable schema tag (like `latest`) in a production environment.                      |

@@ -77,6 +77,7 @@ nav: # Navigation links
   - Appendices:
       - GeoJSON Alignment: appendices/geojson-alignment.md
       - EAS Integration: appendices/eas-integration.md
+      - Spatial Reference Systems: appendices/srs.md
 
 markdown_extensions:
   - md_in_html:

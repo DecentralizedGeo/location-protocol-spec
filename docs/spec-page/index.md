@@ -1,6 +1,6 @@
 # Location Protocol
 
-The Location Protocol establishes a standardized framework for cryptographically verifiable location data on decentralized systems. This specification defines portable, signed spatial records (coordinates, boundaries, proofs) that bridge traditional geospatial standards (EPSG, GeoJSON) with Web3 paradigms (blockchains, content addressing). Implementation-agnostic by design, it enables interoperable "location attestations" across any system.
+The Location Protocol establishes a standardized framework for cryptographically verifiable location data on decentralized systems. This specification defines portable, signed spatial records (coordinates, boundaries, proofs) that bridge traditional geospatial standards with Web3 paradigms (blockchains, content addressing). Implementation-agnostic by design, it enables interoperable "location records" across any system.
 
 ## **Core Concepts**
 
@@ -25,3 +25,4 @@ The Location Protocol establishes a standardized framework for cryptographically
 
 - [GeoJSON alignment](appendices/geojson-alignment.md)
 - [EAS integration](appendices/eas-integration.md)
+- [Spatial Reference Systems](appendices/srs.md)
