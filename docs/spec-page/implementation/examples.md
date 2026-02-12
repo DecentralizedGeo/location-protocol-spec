@@ -227,7 +227,7 @@ async function createLocationAttestation(encodedPayload: string) {
 
 // Encoded payload from the previous step
 const encodedPayload =
-  "p2xWc3BlY1ZlcnNpb25jMS4wc3Nyc2ppRVBTRzo0MzI2bWxvY2F0aW9uVHlwZXVjb29yZGluYXRlLWRlY2ltYWwubG9uLWxhdGdsb2NhdGlvblgCGo4AAAAAAFlAnY5AQUFBQUFBRUE";
+  "pGNzcnN4LGh0dHA6Ly93d3cub3Blbmdpcy5uZXQvZGVmL2Nycy9PR0MvMS4zL0NSUzg0aGxvY2F0aW9ugvvAUoBiTdLxqvtARFs9B8hLXmtzcGVjVmVyc2lvbmMxLjBsbG9jYXRpb25UeXBleBpjb29yZGluYXRlLWRlY2ltYWwrbG9uLWxhdA";
 createLocationAttestation(encodedPayload);
 ```
 
@@ -305,7 +305,7 @@ const locationProtocolSchema = {
   type: "object",
   properties: {
     specVersion: { type: "string" },
-    srs: { type: "string", pattern: "^EPSG:[0-9]+$" },
+    srs: { type: "string", pattern: "^http://www.opengis.net/def/crs/.*$" },
     locationType: { type: "string" },
     location: {}, // Can be an array, object, or string depending on location_Type
   },
@@ -338,7 +338,7 @@ function verifyPayload(encodedPayload: string): boolean {
 
 // Encoded payload from a trusted source
 const encodedPayload =
-  "p2xWc3BlY1ZlcnNpb25jMS4wc3Nyc2ppRVBTRzo0MzI2bWxvY2F0aW9uVHlwZXVjb29yZGluYXRlLWRlY2ltYWwubG9uLWxhdGdsb2NhdGlvblgCGo4AAAAAAFlAnY5AQUFBQUFBRUE";
+  "pGNzcnN4LGh0dHA6Ly93d3cub3Blbmdpcy5uZXQvZGVmL2Nycy9PR0MvMS4zL0NSUzg0aGxvY2F0aW9ugvvAUoBiTdLxqvtARFs9B8hLXmtzcGVjVmVyc2lvbmMxLjBsbG9jYXRpb25UeXBleBpjb29yZGluYXRlLWRlY2ltYWwrbG9uLWxhdA";
 const isVerified = verifyPayload(encodedPayload);
 console.assert(isVerified, "Payload verification should succeed");
 ```
