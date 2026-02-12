@@ -131,16 +131,16 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
       "type": "object",
       "description": "A cryptographic proof of the location claim.",
       "properties": {
-        "recipe_type": {
+        "stamp_type": {
           "type": "string",
           "description": "Identifier for the proof generation method."
         },
-        "recipe_payload": {
+        "stamps": {
           "type": "string",
           "description": "The data required to verify the proof."
         }
       },
-      "required": ["recipe_type", "recipe_payload"]
+      "required": ["stamp_type", "stamps"]
     }
   }
 }

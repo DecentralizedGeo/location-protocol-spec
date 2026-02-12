@@ -111,7 +111,7 @@ The Location Protocol supports custom, verifiable proof mechanisms through the `
 #### `proof.stamp_types`
 
 - **Type**: `string`
-- **Description**: An identifier for the type of proof recipe being used. This string signals to verifiers which validation logic to apply to the `stamps`. Examples might include `signed_sensor_reading.v1` or `hardware_attestation.tpm.v2`. (Location proof plugin naming conventions have not been established.)
+- **Description**: An identifier for the type of proof stamp being used. This string signals to verifiers which validation logic to apply to the `stamps`. Examples might include `signed_sensor_reading.v1` or `hardware_attestation.tpm.v2`. (Location proof plugin naming conventions have not been established.)
 - **Constraints**: Must be a unique, versioned identifier registered in the extension registry.
 
 ---
@@ -119,7 +119,7 @@ The Location Protocol supports custom, verifiable proof mechanisms through the `
 #### `proof.stamps`
 
 - **Type**: `string` (typically Base64 encoded)
-- **Description**: The data payload for the specified proof recipe. Its structure and content are defined by the `stamp_types`. This could contain cryptographic signatures, sensor data, or other evidence that can be independently verified according to the recipe's rules.
+- **Description**: The data payload for the specified proof stamp. Its structure and content are defined by the `stamp_types`. This could contain cryptographic signatures, sensor data, or other evidence that can be independently verified according to the stamp's rules.
 - **Constraints**: The payload must conform to the schema and validation rules defined by its corresponding `stamp_types`.
 
 ### Usage Patterns
@@ -179,7 +179,7 @@ This example includes a CID reference to a photo on IPFS and a custom proof payl
 
 ### Extension Registration and Discovery
 
-To ensure interoperability, new composable fields and proof recipes should be proposed and documented through a community-governed process.
+To ensure interoperability, new composable fields and proof stamps should be proposed and documented through a community-governed process.
 
 **Proposal Process**
 

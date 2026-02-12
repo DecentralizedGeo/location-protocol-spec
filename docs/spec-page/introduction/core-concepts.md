@@ -30,7 +30,7 @@ The primary fields include:
 
 **Schema**: Defines the structure, data types, and validation rules for a Location Payload. Schemas are essential for ensuring data consistency and integrity across different implementations. Systems like the Ethereum Attestation Service (EAS) use schemas to register and validate the structure of records before they are stored.
 
-**Proof Types**: Refers to the different methods and evidence used to generate and support a Location Record. The protocol is extensible to support a variety of proof mechanisms, which can be specified in the payload's optional proof fields (`recipe_type` and `recipe_payload`). These can range from simple assertions to complex, multi-source verifications.
+**Proof Types**: Refers to the different methods and evidence used to generate and support a Location Record. The protocol is extensible to support a variety of proof mechanisms, which can be specified in the payload's optional proof fields (`stamp_type` and `stamps`). These can range from simple assertions to complex, multi-source verifications.
 
 Examples of conceptual proof categories include:
 
@@ -86,7 +86,7 @@ The Location Protocol is designed for extensibility to support evolving use case
 Key extension points include:
 
 - **Location Types**: New `location_type` identifiers can be proposed to support different geospatial data formats beyond the core set (e.g., `h3-index`, `wkt-polygon`, `geohash`).
-- **Proof Types**: The `recipe_type` field allows for new proof mechanisms to be defined, enabling different strategies for location verification.
+- **Proof Types**: The `stamp_type` field allows for new proof mechanisms to be defined, enabling different strategies for location verification.
 - **Composable Fields**: Optional fields can be added to payloads to support use cases like attaching media, structured attributes, timestamps, or other contextual data.
 
 ---
