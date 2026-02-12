@@ -8,6 +8,13 @@ The Location Protocol uses JSON Schema to formally define the structure, constra
 
 While presented here as a single, comprehensive schema, the components are defined in a modular fashion within the `definitions` section. This allows implementers to use the schema as a single file or break it into smaller, interconnected files for easier maintenance.
 
+#### Naming Conventions
+
+To ensure consistency and interoperability across the ecosystem, the Location Protocol adopts `snake_case` as the canonical naming convention for all schema fields.
+
+- **Core Protocol**: All core fields (e.g., `lp_version`, `location_type`) and natively supported extensions MUST use `snake_case`.
+- **Custom Extensions**: While not strictly enforced for custom or user-defined schemas, the use of `snake_case` is STRONGLY RECOMMENDED to maintain stylistic alignment with the protocol.
+
 #### JSON Schema
 
 The following JSON Schema, compliant with Draft 07 or later, defines the complete `LocationPayload` object. It includes base fields, location types, composable fields, and proof structures. The schema uses an `$id` for unique identification and references internal definitions for modularity.
