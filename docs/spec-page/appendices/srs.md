@@ -88,7 +88,7 @@ The following pseudocode examples illustrate how to implement some of the key fu
 
 #### Mapping Shorthand Codes to URIs
 
-```python
+```TypeScript
 function mapShorthandToUri(shorthand: string): string | null {
   const mapping = {
     "EPSG:4326": "http://www.opengis.net/def/crs/EPSG/0/4326",
@@ -102,7 +102,7 @@ function mapShorthandToUri(shorthand: string): string | null {
 
 #### Validating a CRS URI
 
-```python
+```typescript
 import re
 
 function isValidCrsUri(uri: string): boolean {
@@ -110,13 +110,13 @@ function isValidCrsUri(uri: string): boolean {
   // A more robust implementation would involve actually resolving the URI
   // and checking for a valid GML or other machine-readable definition.
   const ogcPattern = /^http:\/\/www\.opengis\.net\/def\/crs\/\w+\/\d+(\.\d+)*\/\w+$/;
-  return re.test(ogcPattern, uri);
+  return ogcPattern.test(uri);
 }
 ```
 
 #### Verifying and Enforcing Coordinate Order
 
-```python
+```typescript
 function enforceLonLatOrder(coordinates: number[], crsUri: string): number[] {
   // This is a simplified example. A real implementation would need to
   // parse the CRS definition to determine the correct axis order.
