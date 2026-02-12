@@ -34,7 +34,11 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
       "oneOf": [
         { "$ref": "#/definitions/locationCoordinateDecimal" },
         { "$ref": "#/definitions/locationGeoJSON" },
-        { "$ref": "#/definitions/locationH3" }
+        { "$ref": "#/definitions/locationH3" },
+        { "$ref": "#/definitions/locationGeohash" },
+        { "$ref": "#/definitions/locationWKT" },
+        { "$ref": "#/definitions/locationAddress" },
+        { "$ref": "#/definitions/locationScaledCoordinates" }
       ]
     },
     "event_timestamp": {
@@ -61,6 +65,71 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
     }
   },
   "required": ["lp_version", "srs", "location_type", "location"],
+  "oneOf": [
+    {
+      "properties": {
+        "location_type": { "const": "coordinate-decimal+lon-lat" },
+        "location": { "$ref": "#/definitions/locationCoordinateDecimal" }
+      },
+      "required": ["location_type", "location"]
+    },
+    {
+      "properties": {
+        "location_type": { "const": "geojson-point" },
+        "location": { "allOf": [ { "$ref": "#/definitions/locationGeoJSON" }, { "properties": { "type": { "const": "Point" } }, "required": ["type"] } ] }
+      },
+      "required": ["location_type", "location"]
+    },
+    {
+      "properties": {
+        "location_type": { "const": "geojson-line" },
+        "location": { "allOf": [ { "$ref": "#/definitions/locationGeoJSON" }, { "properties": { "type": { "const": "LineString" } }, "required": ["type"] } ] }
+      },
+      "required": ["location_type", "location"]
+    },
+    {
+      "properties": {
+        "location_type": { "const": "geojson-polygon" },
+        "location": { "allOf": [ { "$ref": "#/definitions/locationGeoJSON" }, { "properties": { "type": { "const": "Polygon" } }, "required": ["type"] } ] }
+      },
+      "required": ["location_type", "location"]
+    },
+    {
+      "properties": {
+        "location_type": { "const": "h3" },
+        "location": { "$ref": "#/definitions/locationH3" }
+      },
+      "required": ["location_type", "location"]
+    },
+    {
+      "properties": {
+        "location_type": { "const": "geohash" },
+        "location": { "$ref": "#/definitions/locationGeohash" }
+      },
+      "required": ["location_type", "location"]
+    },
+    {
+      "properties": {
+        "location_type": { "const": "wkt" },
+        "location": { "$ref": "#/definitions/locationWKT" }
+      },
+      "required": ["location_type", "location"]
+    },
+    {
+      "properties": {
+        "location_type": { "const": "address" },
+        "location": { "$ref": "#/definitions/locationAddress" }
+      },
+      "required": ["location_type", "location"]
+    },
+    {
+      "properties": {
+        "location_type": { "const": "scaledCoordinates" },
+        "location": { "$ref": "#/definitions/locationScaledCoordinates" }
+      },
+      "required": ["location_type", "location"]
+    }
+  ],
   "definitions": {
     "lp_version": {
       "type": "string",
@@ -80,7 +149,7 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
     "location_type": {
       "type": "string",
       "description": "Identifier for the location data format.",
-      "enum": ["coordinate-decimal", "geojson-point", "h3-index"]
+      "enum": ["coordinate-decimal+lon-lat", "geojson-point", "geojson-line", "geojson-polygon", "h3", "geohash", "wkt", "address", "scaledCoordinates"]
     },
     "locationCoordinateDecimal": {
       "description": "Location as a longitude, latitude array.",
@@ -90,11 +159,11 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
       "maxItems": 2
     },
     "locationGeoJSON": {
-      "description": "A GeoJSON Geometry object as defined in RFC 7946. Supports all geometry types: Point, LineString, Polygon, MultiPoint, MultiLineString, MultiPolygon, and GeometryCollection.",
+      "description": "A GeoJSON Geometry object as defined in RFC 7946. Supports geometry types: Point, LineString, and Polygon.",
       "type": "object",
       "properties": {
         "type": {
-          "enum": ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon", "GeometryCollection"]
+          "enum": ["Point", "LineString", "Polygon"]
         }
       },
       "required": ["type"],
@@ -104,6 +173,29 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
       "description": "Location as an H3 cell index.",
       "type": "string",
       "pattern": "^[89ab][0-9a-f]{14}$"
+    },
+    "locationGeohash": {
+      "description": "Location as a Geohash string.",
+      "type": "string",
+      "pattern": "^[0123456789bcdefghjkmnpqrstuvwxyz]+$"
+    },
+    "locationWKT": {
+      "description": "Location as a Well-Known Text (WKT) string.",
+      "type": "string"
+    },
+    "locationAddress": {
+      "description": "Location as a standard mailing or street address.",
+      "type": "string"
+    },
+    "locationScaledCoordinates": {
+      "description": "Location as scaled integer coordinates.",
+      "type": "object",
+      "properties": {
+        "x": { "type": "integer" },
+        "y": { "type": "integer" },
+        "scale": { "type": "integer", "exclusiveMinimum": 0 }
+      },
+      "required": ["x", "y", "scale"]
     },
     "event_timestamp": {
       "type": "integer",
