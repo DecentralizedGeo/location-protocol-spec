@@ -133,7 +133,7 @@ This example includes an `event_timestamp` to specify when a delivery was record
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "coordinate-decimal",
+  "location_type": "coordinate-decimal+lon-lat",
   "location": [-74.006, 40.7128],
   "event_timestamp": 1732552800
 }

@@ -14,14 +14,14 @@ The primary fields include:
 
 - `lp_version`: The version of the Location Protocol specification the payload adheres to (e.g., `"1.0.0"`).
 - `srs`: The Spatial Reference System URI (e.g., `http://www.opengis.net/def/crs/OGC/1.3/CRS84`) that defines the coordinate system.
-- `location_type`: An identifier for the format of the `location` data (e.g., `coordinate-decimal`, `geojson-point`).
+- `location_type`: An identifier for the format of the `location` data (e.g., `coordinate-decimal+lon-lat`, `geojson-point`).
 - `location`: The geospatial data itself, formatted according to `location_type`.
 
 ```json
 {
   "lp_version": "1.0.0",
   "srs": "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
-  "location_type": "coordinate-decimal",
+  "location_type": "coordinate-decimal+lon-lat",
   "location": [-103.771556, 44.967243]
 }
 ```
@@ -85,7 +85,7 @@ The Location Protocol is designed for extensibility to support evolving use case
 
 Key extension points include:
 
-- **Location Types**: New `location_type` identifiers can be proposed to support different geospatial data formats beyond the core set (e.g., `h3-index`, `wkt-polygon`, `geohash`).
+- **Location Types**: New `location_type` identifiers can be proposed to support different geospatial data formats beyond the core set (e.g., `h3`, `wkt-polygon`, `geohash`).
 - **Proof Types**: The `stamp_type` field allows for new proof mechanisms to be defined, enabling different strategies for location verification.
 - **Composable Fields**: Optional fields can be added to payloads to support use cases like attaching media, structured attributes, timestamps, or other contextual data.
 

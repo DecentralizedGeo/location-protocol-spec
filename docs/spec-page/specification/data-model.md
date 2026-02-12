@@ -30,7 +30,7 @@ The base data model consists of four required fields: `lp_version`, `srs`, `loca
 - **Type**: `string`
 - **Constraints**:
   - This field is **required**.
-  - The value MUST correspond to an identifier in the official Location Type Registry (e.g., `geojson-point`, `h3-index`, `coordinate-decimal`).
+  - The value MUST correspond to an identifier in the official Location Type Registry (e.g., `geojson-point`, `h3`, `coordinate-decimal+lon-lat`).
 
 **`location`**
 

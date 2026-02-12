@@ -24,7 +24,7 @@ interface LocationPayload {
 const payload: LocationPayload = {
   specVersion: "1.0",
   srs: "EPSG:4326",
-  locationType: "coordinate-decimal.lon-lat",
+  locationType: "coordinate-decimal+lon-lat",
   location: [-74.006, 40.7128], // [longitude, latitude]
   eventTimestamp: new Date().toISOString(),
 };
@@ -97,7 +97,7 @@ import { encode, decode } from "cbor-x";
 const payload = {
   specVersion: "1.0",
   srs: "EPSG:4326",
-  locationType: "coordinate-decimal.lon-lat",
+  locationType: "coordinate-decimal+lon-lat",
   location: [-74.006, 40.7128],
 };
 

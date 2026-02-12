@@ -23,7 +23,7 @@ The current implementation uses simple, unversioned string identifiers for `loca
 
 | Supported Location Types    | Description                                                                                                                                          |
 | :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `coordinate-decimal+lon-lat`        | A pair of decimal degree coordinates. Default order is longitude, latitude. A `+lat-lon` modifier can be used for explicit latitude-first ordering. |
+| `coordinate-decimal+lon-lat`        | A pair of decimal degree coordinates. Default order is longitude, latitude. |
 | `geojson-point`           | A GeoJSON Point object representing a single geographic location.                                                                                   |
 | `geojson-line`            | A GeoJSON LineString object representing a linear geographic feature as an array of two or more positions.                                                                                 |
 | `geojson-polygon`         | A GeoJSON Polygon object representing a geographic boundary or area. The first and last positions are equivalent, and they MUST contain identical values; their representation SHOULD also be identical. |
