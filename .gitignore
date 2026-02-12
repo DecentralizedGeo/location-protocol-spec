@@ -159,3 +159,7 @@ _website/
 
 # VSCode
 .vscode/
+
+# Other folders
+docs/.design
+docs/.output
