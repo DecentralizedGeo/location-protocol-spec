@@ -98,11 +98,9 @@ The Location Protocol's features are designed to map clearly onto capabilities d
 
 When integrating the Location Protocol with systems that consume GeoJSON, adhere to the following notes to ensure compatibility.
 
-- **Coordinate Reference System**: To maintain strict GeoJSON (RFC 7946) compatibility, the `srs` field **MUST** be set to `"EPSG:4326"`. While the Location Protocol supports other systems, `"EPSG:4326"` is the only valid value when interoperating with standard GeoJSON tools.
 - **Coordinate Order**: GeoJSON mandates a coordinate order of **longitude, latitude** for geographic coordinates. Payloads must conform to this order when `locationType` is `geojson`.
-- **Unsupported Mappings**: The Location Protocol does not directly map to a GeoJSON `FeatureCollection`. To handle multiple locations, multiple Location Protocol attestations should be created—one for each feature.
 - **Protocol as a Wrapper**: Remember that a Location Protocol payload is a _wrapper_ for geospatial data, not a replacement for it. The payload adds context, versioning, and verifiability around a standard data format like GeoJSON.
 
----
+> **Note:** When specifying the SRS for GeoJSON alignment, always use a full URI (e.g., `http://www.opengis.net/def/crs/OGC/1.3/CRS84`). Shorthand codes like "EPSG:4326" are deprecated. See [Deprecation of legacy shorthand codes](srs.md#deprecation-of-legacy-shorthand-codes).
 
 [:material-arrow-left: Back to Appendices Overview](index.md){ .md-button .md-button--primary }
