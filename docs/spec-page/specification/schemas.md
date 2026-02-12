@@ -230,7 +230,7 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
       "type": "object",
       "description": "A cryptographic proof of the location claim.",
       "properties": {
-        "stamp_type": {
+        "stamp_types": {
           "type": "string",
           "description": "Identifier for the proof generation method."
         },
@@ -239,7 +239,7 @@ The following JSON Schema, compliant with Draft 07 or later, defines the complet
           "description": "The data required to verify the proof."
         }
       },
-      "required": ["stamp_type", "stamps"]
+      "required": ["stamp_types", "stamps"]
     }
   }
 }
