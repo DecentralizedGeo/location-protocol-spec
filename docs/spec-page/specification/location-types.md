@@ -122,7 +122,7 @@ The protocol's extensibility allows developers to define and use custom location
 3. **Review**: The proposal undergoes a community review. Once accepted, it is added to the official registry.
 
 **Backward Compatibility**
-The version number in the standardized identifier is crucial for managing changes. Any modification to a type's format that is not backward-compatible requires incrementing the major version number. Applications should be designed to handle specific versions and gracefully manage payloads with unsupported `locationType` identifiers to prevent data misinterpretation.
+The version number in the standardized identifier is crucial for managing changes. Any modification to a type's format that is not backward-compatible requires incrementing the major version number. Applications should be designed to handle specific versions and gracefully manage payloads with unsupported `location_type` identifiers to prevent data misinterpretation.
 
 ---
 

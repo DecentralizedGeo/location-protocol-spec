@@ -70,14 +70,14 @@ This example illustrates the end-to-end encoding and hashing process using a Geo
 
 ```json
 {
-  "specVersion": "1.0.0",
+  "lp_version": "1.0.0",
   "srs": "EPSG:4326",
-  "locationType": "geoJson",
+  "location_type": "geojson-point",
   "location": {
     "type": "Point",
     "coordinates": [-103.771556, 44.967243]
   },
-  "eventTimestamp": "2025-06-25T23:18:00Z"
+  "event_timestamp": "2025-06-25T23:18:00Z"
 }
 ```
 
@@ -85,11 +85,11 @@ This example illustrates the end-to-end encoding and hashing process using a Geo
 
 ```json
 {
-  "eventTimestamp": "2025-06-25T23:18:00Z",
+  "event_timestamp": "2025-06-25T23:18:00Z",
   "location": { "coordinates": [-103.771556, 44.967243], "type": "Point" },
-  "locationType": "geoJson",
+  "location_type": "geojson-point",
   "srs": "EPSG:4326",
-  "specVersion": "1.0.0"
+  "lp_version": "1.0.0"
 }
 ```
 
