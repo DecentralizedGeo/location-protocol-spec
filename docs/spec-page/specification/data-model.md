@@ -21,8 +21,12 @@ The base data model consists of four required fields: `lp_version`, `srs`, `loca
 - **Constraints**:
   - This field is **required**.
   - The value MUST be a valid HTTP URI or URN.
-  - The value SHOULD use the OGC URI format: `http://www.opengis.net/def/crs/{authority}/{version}/{code}` (e.g., `http://www.opengis.net/def/crs/EPSG/0/4326` for WGS 84 with latitude/longitude order, or `http://www.opengis.net/def/crs/OGC/1.3/CRS84` for WGS 84 with longitude/latitude order).
-  - Short codes like "EPSG:4326" are deprecated in favor of full URIs. More details on the deprecation can be found in the **Spatial Reference Systems** appendix resources page: [Deprecation of legacy shorthand codes](../appendices/srs.md#deprecation-of-legacy-shorthand-codes).
+  - The value SHOULD use the OGC URI format: `http://www.opengis.net/def/crs/{authority}/{version}/{code}`
+    -  `http://www.opengis.net/def/crs/EPSG/0/4326` for WGS 84 with latitude/longitude order.
+    -  `http://www.opengis.net/def/crs/OGC/1.3/CRS84` for WGS 84 with longitude/latitude order.
+
+!!! note
+    Short codes like "EPSG:4326" are deprecated in favor of full URIs. More details on the deprecation can be found in the **Spatial Reference Systems** appendix resources page: [Deprecation of legacy shorthand codes](../appendices/srs.md#deprecation-of-legacy-shorthand-codes).
 
 **`location_type`**
 
