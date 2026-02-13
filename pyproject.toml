@@ -21,7 +21,12 @@ dependencies = [
     "mkdocs-material",
     "mkdocstrings",
     "mkdocstrings-python",
+    "pymdown-extensions (>=10.20.1,<11.0.0)",
 ]
 
 [tool.poetry]
 package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+jsonschema = "^4.26.0"
+
