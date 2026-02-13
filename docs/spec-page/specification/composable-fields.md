@@ -104,7 +104,8 @@ The following snippets define the schema for the optional composable fields.
 
 The Location Protocol supports custom, verifiable proof mechanisms through the `proof` object, which contains `stamp_types` and `stamps` fields. This allows for domain-specific verification methods beyond the base record signature.
 
-> **Note**: The proof extension framework is an advanced feature, still in development. The definitions and validation requirements are expected to evolve with community feedback and implementation experience.
+!!! note
+    The proof extension framework is an advanced feature, still in development. The definitions and validation requirements are expected to evolve with community feedback and implementation experience.
 
 ---
 

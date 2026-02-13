@@ -33,7 +33,9 @@ The current implementation uses simple, unversioned string identifiers for `loca
 | `address`                   | A standard mailing or street address.                                                                                                                |
 | `scaledCoordinates`         | A scaled integer representation of coordinate pairs, representing points, lines, or polygons.                                                        |
 
-> [!NOTE] All geojson location types must conform to the GeoJSON specification defined in [RFC 7946](https://datatracker.ietf.org/doc/html/rfc7946).
+!!! note
+    All geojson location types must conform to the GeoJSON specification defined in [RFC 7946](https://datatracker.ietf.org/doc/html/rfc7946).
+
 
 ### Usage Examples
 
