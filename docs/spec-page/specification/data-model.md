@@ -16,17 +16,23 @@ The base data model consists of four required fields: `lp_version`, `srs`, `loca
 
 **`srs`**
 
-- **Description**: A URI specifying the Spatial Reference System (SRS) used for the coordinate values within the `location` field. Using a resolvable, machine-readable URI is critical for unambiguous spatial interpretation and interoperability.
+- **Description**: A canonical OGC identifier specifying the Spatial Reference System (SRS) used for the coordinate values within the `location` field. Using a resolvable, machine-readable identifier is critical for unambiguous spatial interpretation and interoperability.
 - **Type**: `string`
 - **Constraints**:
   - This field is **required**.
   - The value MUST be a valid HTTP URI or URN.
-  - The value SHOULD use the OGC URI format: `http://www.opengis.net/def/crs/{authority}/{version}/{code}`
-    -  `http://www.opengis.net/def/crs/EPSG/0/4326` for WGS 84 with latitude/longitude order.
-    -  `http://www.opengis.net/def/crs/OGC/1.3/CRS84` for WGS 84 with longitude/latitude order.
+  - The value SHOULD use one of the two canonical OGC forms — both are accepted and equivalent:
+    - **HTTP URI**: `http://www.opengis.net/def/crs/{authority}/{version}/{code}`
+        - `http://www.opengis.net/def/crs/EPSG/0/4326` for WGS 84 with latitude/longitude order.
+        - `http://www.opengis.net/def/crs/OGC/1.3/CRS84` for WGS 84 with longitude/latitude order.
+    - **URN**: `urn:ogc:def:crs:{authority}:{version}:{code}`
+        - `urn:ogc:def:crs:EPSG::4326` for WGS 84 with latitude/longitude order.
+        - `urn:ogc:def:crs:OGC:1.3:CRS84` for WGS 84 with longitude/latitude order.
+
+    See [CRS Identifiers: URIs and URNs](../appendices/srs.md#crs-identifiers-uris-and-urns) for the full pattern definitions and a shorthand-to-canonical mapping table.
 
 !!! note
-    Short codes like "EPSG:4326" are deprecated in favor of full URIs. More details on the deprecation can be found in the **Spatial Reference Systems** appendix resources page: [Deprecation of legacy shorthand codes](../appendices/srs.md#deprecation-of-legacy-shorthand-codes).
+    Short codes like "EPSG:4326" are deprecated in favor of full URIs or URNs. More details on the deprecation can be found in the **Spatial Reference Systems** appendix: [Deprecation of legacy shorthand codes](../appendices/srs.md#deprecation-of-legacy-shorthand-codes).
 
 **`location_type`**
 
@@ -64,7 +70,7 @@ This schema can be used for programmatic validation of Location Protocol payload
       "pattern": "^\\d+\\.\\d+\\.\\d+$"
     },
     "srs": {
-      "description": "The Spatial Reference System URI (e.g., 'http://www.opengis.net/def/crs/EPSG/0/4326').",
+      "description": "The Spatial Reference System identifier. Accepts either the OGC HTTP URI form (e.g., 'http://www.opengis.net/def/crs/EPSG/0/4326') or the equivalent URN form (e.g., 'urn:ogc:def:crs:EPSG::4326').",
       "type": "string",
       "format": "uri"
     },
@@ -88,7 +94,7 @@ Validation is a sequential process. An implementation must check for the presenc
 
 - The payload MUST be a valid JSON object.
 - The `lp_version` field MUST be present and its value MUST match the `major.minor.patch` semantic versioning pattern.
-- The `srs` field MUST be present and contain a valid URI.
+- The `srs` field MUST be present and contain a valid URI or URN.
 - The `location_type` field MUST be present and contain a non-empty string.
 - The `location` field MUST be present.
 - The value of the `location` field MUST validate against the schema defined for the given `location_type`.
