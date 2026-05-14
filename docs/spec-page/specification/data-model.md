@@ -135,6 +135,21 @@ This example shows a correctly formatted payload using the `geojson-point` locat
 }
 ```
 
+**Valid Payload (URN form)**
+The `srs` field may equivalently use the OGC URN scheme. Implementations MUST accept either form. See [CRS Identifiers: URIs and URNs](../appendices/srs.md#crs-identifiers-uris-and-urns) for the canonical patterns.
+
+```json
+{
+  "lp_version": "1.0.0",
+  "srs": "urn:ogc:def:crs:OGC:1.3:CRS84",
+  "location_type": "geojson-point",
+  "location": {
+    "type": "Point",
+    "coordinates": [-103.771556, 44.967243]
+  }
+}
+```
+
 **Invalid Payloads**
 These examples demonstrate common validation errors.
 
