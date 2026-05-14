@@ -114,32 +114,33 @@ function mapShorthandToUri(shorthand: string): string | null {
 }
 ```
 
-#### Validating a CRS URI
+#### Validating a CRS Identifier
 
 ```typescript
-import re
-
-function isValidCrsUri(uri: string): boolean {
-  // A simple regex to check for a valid OGC URI pattern.
-  // A more robust implementation would involve actually resolving the URI
-  // and checking for a valid GML or other machine-readable definition.
-  const ogcPattern = /^http:\/\/www\.opengis\.net\/def\/crs\/\w+\/\d+(\.\d+)*\/\w+$/;
-  return ogcPattern.test(uri);
+function isValidCrsIdentifier(identifier: string): boolean {
+  // Simple regexes to check for valid OGC URI and URN patterns.
+  // A more robust implementation would involve actually resolving the
+  // identifier and checking for a valid GML or other machine-readable
+  // definition.
+  const ogcUriPattern = /^http:\/\/www\.opengis\.net\/def\/crs\/\w+\/\d+(\.\d+)*\/\w+$/;
+  const ogcUrnPattern = /^urn:ogc:def:crs:\w+:\d*(\.\d+)*:\w+$/;
+  return ogcUriPattern.test(identifier) || ogcUrnPattern.test(identifier);
 }
 ```
 
 #### Verifying and Enforcing Coordinate Order
 
 ```typescript
-function enforceLonLatOrder(coordinates: number[], crsUri: string): number[] {
+function enforceLonLatOrder(coordinates: number[], crsIdentifier: string): number[] {
   // This is a simplified example. A real implementation would need to
   // parse the CRS definition to determine the correct axis order.
   const crsWithLatLonOrder = [
-    "http://www.opengis.net/def/crs/EPSG/0/4326"
+    "http://www.opengis.net/def/crs/EPSG/0/4326",
+    "urn:ogc:def:crs:EPSG::4326"
     // ... add other CRSs with lat, lon order here
   ];
 
-  if (crsWithLatLonOrder.includes(crsUri)) {
+  if (crsWithLatLonOrder.includes(crsIdentifier)) {
     // Swap the coordinates if the CRS expects lat, lon order.
     return [coordinates[1], coordinates[0]];
   }
