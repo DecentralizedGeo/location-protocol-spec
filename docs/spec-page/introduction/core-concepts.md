@@ -77,7 +77,7 @@ It is crucial to distinguish between the protocol specification and its various 
 
 ### Spatial Reference Systems (SRS)
 
-A Spatial Reference System (SRS), also known as a Coordinate Reference System (CRS), is a framework used to precisely define locations on Earth's surface (or other celestial bodies). Every Location Payload must include an `srs` URI. The protocol follows OGC standards, using URIs like `http://www.opengis.net/def/crs/OGC/1.3/CRS84` (for WGS 84 with longitude/latitude order) or `http://www.opengis.net/def/crs/EPSG/0/4326` (for WGS 84 with latitude/longitude order). This field is mandatory to prevent ambiguity about coordinate systems and axis order, ensuring that coordinate values are interpreted correctly by any application consuming the data.
+A Spatial Reference System (SRS), also known as a Coordinate Reference System (CRS), is a framework used to precisely define locations on Earth's surface (or other celestial bodies). Every Location Payload must include an `srs` identifier. The protocol follows OGC standards and accepts either canonical form — the HTTP URI (e.g. `http://www.opengis.net/def/crs/OGC/1.3/CRS84` for WGS 84 with longitude/latitude order) or the equivalent URN (e.g. `urn:ogc:def:crs:OGC:1.3:CRS84`). This field is mandatory to prevent ambiguity about coordinate systems and axis order, ensuring that coordinate values are interpreted correctly by any application consuming the data. See [CRS Identifiers: URIs and URNs](../appendices/srs.md#crs-identifiers-uris-and-urns) for the full pattern definitions.
 
 ### Extensibility Framework
 

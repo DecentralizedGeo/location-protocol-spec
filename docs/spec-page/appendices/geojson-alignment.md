@@ -101,6 +101,6 @@ When integrating the Location Protocol with systems that consume GeoJSON, adhere
 - **Coordinate Order**: GeoJSON mandates a coordinate order of **longitude, latitude** for geographic coordinates. Payloads must conform to this order when `location_type` is a geojson based object.
 - **Protocol as a Wrapper**: Remember that a Location Protocol payload is a _wrapper_ for geospatial data, not a replacement for it. The payload adds context, versioning, and verifiability around a standard data format like GeoJSON.
 
-> **Note:** When specifying the SRS for GeoJSON alignment, always use a full URI (e.g., `http://www.opengis.net/def/crs/OGC/1.3/CRS84`). Shorthand codes like "EPSG:4326" are deprecated. See [Deprecation of legacy shorthand codes](srs.md#deprecation-of-legacy-shorthand-codes).
+> **Note:** When specifying the SRS for GeoJSON alignment, always use a canonical OGC identifier — either the HTTP URI form (e.g., `http://www.opengis.net/def/crs/OGC/1.3/CRS84`) or the equivalent URN form (e.g., `urn:ogc:def:crs:OGC:1.3:CRS84`). Shorthand codes like "EPSG:4326" are deprecated. See [Deprecation of legacy shorthand codes](srs.md#deprecation-of-legacy-shorthand-codes) and [CRS Identifiers: URIs and URNs](srs.md#crs-identifiers-uris-and-urns).
 
 [:material-arrow-left: Back to Appendices Overview](index.md){ .md-button .md-button--primary }

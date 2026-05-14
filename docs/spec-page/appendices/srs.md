@@ -31,23 +31,37 @@ When in doubt, **WGS 84 (CRS84) with `longitude, latitude` coordinate order is t
 
 A URI or URN provides a globally unique and persistent identifier for a CRS. These identifiers are resolvable on the web, allowing both humans and machines to access a detailed definition of the CRS, including its parameters, datum, and coordinate system.
 
-#### Canonical URI Patterns
+The Open Geospatial Consortium (OGC) defines two canonical forms for CRS identifiers — an HTTP URI form and a URN form. **Both are accepted by the Location Protocol**, and implementations MUST NOT reject one in favor of the other. Choose whichever your toolchain or registry already produces; the two forms are equivalent.
 
-The Open Geospatial Consortium (OGC) maintains a registry of CRS definitions and provides a standard URI pattern for referencing them. The general pattern is:
+#### Canonical URI Pattern
+
+The OGC maintains a registry of CRS definitions and provides a standard URI pattern for referencing them. The general pattern is:
 
 ```
 http://www.opengis.net/def/crs/{authority}/{version}/{code}
 ```
 
-Here are some examples of replacing shorthand codes with their canonical OGC URIs:
+#### Canonical URN Pattern
 
-| Shorthand Code | Canonical URI |
-| :-- | :-- |
-| `EPSG:4326` | `http://www.opengis.net/def/crs/EPSG/0/4326` |
-| `EPSG:3857` | `http://www.opengis.net/def/crs/EPSG/0/3857` |
-| `CRS:84` | `http://www.opengis.net/def/crs/OGC/1.3/CRS84` |
+The OGC also publishes a URN scheme for the same identifiers, registered with IANA. The general pattern is:
 
-While the OGC registry is the recommended source for CRS URIs, other registries, such as the IGN France CRS registry, may also be used, as long as they provide stable, resolvable, and machine-readable definitions.
+```
+urn:ogc:def:crs:{authority}:{version}:{code}
+```
+
+The `{version}` segment may be empty (e.g. for the EPSG authority, which versions its registry separately). Note the use of `:` as the separator and the omission of `www.opengis.net` — these are the structural differences from the URI form.
+
+#### Mapping shorthand codes to canonical identifiers
+
+Here are some examples of replacing shorthand codes with their canonical OGC identifiers:
+
+| Shorthand Code | Canonical URI | Canonical URN |
+| :-- | :-- | :-- |
+| `EPSG:4326` | `http://www.opengis.net/def/crs/EPSG/0/4326` | `urn:ogc:def:crs:EPSG::4326` |
+| `EPSG:3857` | `http://www.opengis.net/def/crs/EPSG/0/3857` | `urn:ogc:def:crs:EPSG::3857` |
+| `CRS:84` | `http://www.opengis.net/def/crs/OGC/1.3/CRS84` | `urn:ogc:def:crs:OGC:1.3:CRS84` |
+
+While the OGC registry is the recommended source for CRS identifiers, other registries, such as the IGN France CRS registry, may also be used, as long as they provide stable, resolvable, and machine-readable definitions.
 
 ### Coordinate Order: `lon, lat` vs. `lat, lon`
 
@@ -100,32 +114,33 @@ function mapShorthandToUri(shorthand: string): string | null {
 }
 ```
 
-#### Validating a CRS URI
+#### Validating a CRS Identifier
 
 ```typescript
-import re
-
-function isValidCrsUri(uri: string): boolean {
-  // A simple regex to check for a valid OGC URI pattern.
-  // A more robust implementation would involve actually resolving the URI
-  // and checking for a valid GML or other machine-readable definition.
-  const ogcPattern = /^http:\/\/www\.opengis\.net\/def\/crs\/\w+\/\d+(\.\d+)*\/\w+$/;
-  return ogcPattern.test(uri);
+function isValidCrsIdentifier(identifier: string): boolean {
+  // Simple regexes to check for valid OGC URI and URN patterns.
+  // A more robust implementation would involve actually resolving the
+  // identifier and checking for a valid GML or other machine-readable
+  // definition.
+  const ogcUriPattern = /^http:\/\/www\.opengis\.net\/def\/crs\/\w+\/\d+(\.\d+)*\/\w+$/;
+  const ogcUrnPattern = /^urn:ogc:def:crs:\w+:\d*(\.\d+)*:\w+$/;
+  return ogcUriPattern.test(identifier) || ogcUrnPattern.test(identifier);
 }
 ```
 
 #### Verifying and Enforcing Coordinate Order
 
 ```typescript
-function enforceLonLatOrder(coordinates: number[], crsUri: string): number[] {
+function enforceLonLatOrder(coordinates: number[], crsIdentifier: string): number[] {
   // This is a simplified example. A real implementation would need to
   // parse the CRS definition to determine the correct axis order.
   const crsWithLatLonOrder = [
-    "http://www.opengis.net/def/crs/EPSG/0/4326"
+    "http://www.opengis.net/def/crs/EPSG/0/4326",
+    "urn:ogc:def:crs:EPSG::4326"
     // ... add other CRSs with lat, lon order here
   ];
 
-  if (crsWithLatLonOrder.includes(crsUri)) {
+  if (crsWithLatLonOrder.includes(crsIdentifier)) {
     // Swap the coordinates if the CRS expects lat, lon order.
     return [coordinates[1], coordinates[0]];
   }
